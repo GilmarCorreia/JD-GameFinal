@@ -2,11 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Landing : StateMachineBehaviour
+public class FallingAnim : StateMachineBehaviour
 {
     override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        ErikaArcher player = animator.GetComponent<ErikaArcher>();
-        player.landing = false ;
+        Movement moveScript = animator.GetComponent<Movement>();
+        moveScript.falling = false;
     }
 }
+

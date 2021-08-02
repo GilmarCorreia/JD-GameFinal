@@ -871,7 +871,7 @@ MonoBehaviour:
     ModeOverride: 0
     LensShift: {x: 0, y: 0}
     GateFit: 2
-    m_SensorSize: {x: 1.2581699, y: 1}
+    m_SensorSize: {x: 1.2419355, y: 1}
   m_Transitions:
     m_BlendHint: 0
     m_InheritPosition: 0
@@ -1172,7 +1172,7 @@ MonoBehaviour:
     ModeOverride: 0
     LensShift: {x: 0, y: 0}
     GateFit: 2
-    m_SensorSize: {x: 1.2581699, y: 1}
+    m_SensorSize: {x: 1.2419355, y: 1}
   m_Transitions:
     m_BlendHint: 0
     m_InheritPosition: 0
@@ -1219,15 +1219,19 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1288944861, guid: ac4a10932f43a324dabd444bfa3e159f, type: 3}
       propertyPath: fallStep
-      value: 1.8
+      value: 0.1
       objectReference: {fileID: 0}
     - target: {fileID: 1288944861, guid: ac4a10932f43a324dabd444bfa3e159f, type: 3}
       propertyPath: landStep
-      value: 2
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 1288944861, guid: ac4a10932f43a324dabd444bfa3e159f, type: 3}
       propertyPath: animStrings.jump
       value: jump
+      objectReference: {fileID: 0}
+    - target: {fileID: 1288944861, guid: ac4a10932f43a324dabd444bfa3e159f, type: 3}
+      propertyPath: animStrings.land
+      value: land
       objectReference: {fileID: 0}
     - target: {fileID: 1288944862, guid: ac4a10932f43a324dabd444bfa3e159f, type: 3}
       propertyPath: gravity

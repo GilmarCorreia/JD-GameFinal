@@ -24,7 +24,8 @@ public class Movement : MonoBehaviour
         public string equip = "equip";
         public string unequip = "unequip";
         public string fall = "falling";
-        public string land = "landing";
+        public string land = "land";
+        public string landing = "landing";
         public string jump = "jump";
     }
     [SerializeField]
@@ -65,7 +66,7 @@ public class Movement : MonoBehaviour
     {
         //print(cc.velocity);
         CharacterFall();
-        //CharacterLand();
+        CharacterLand();
     }
 
     public void AnimateCharacter(float forward,float strafe)
@@ -153,28 +154,34 @@ public class Movement : MonoBehaviour
         //if (!cc.isGrounded)
         if (!CloseToGround(fallStep,Color.green) && !jumping)
         {
-            float moveX = 0.01f, moveZ = 0.01f;
+            float pushForward = 0.1f;
             
             if (rb.velocity.y > -1f /*&& rb.velocity.y < 0.2*/)
-                cc.Move(new Vector3(moveX, -gravity * Time.deltaTime, moveZ));
+                cc.Move(new Vector3(0, -gravity * Time.deltaTime, 0) + pushForward*transform.forward);
             else
                 cc.Move(new Vector3(0, -gravity * Time.deltaTime, 0));
             //print(cc.velocity);
             falling = true;
-            CharacterLand();
+            landing = false;
+            //CharacterLand();
         }
         else
         {
             //cc.Move(new Vector3(0, 0, 0));
+            if(!cc.isGrounded && !jumping)
+                cc.Move(new Vector3(0, -gravity * Time.deltaTime, 0));
+            landing = false;
             falling = false;
         }
         anim.SetBool(animStrings.fall, falling);
+        anim.SetBool(animStrings.landing, landing);
     }
 
     public void CharacterLand()
     {
         //if(cc.isGrounded)
-        if (CloseToGround(landStep,Color.cyan))
+        //if (CloseToGround(landStep,Color.cyan))
+        if (CloseToGround(landStep, Color.cyan) && falling)
         {
             falling = false;
             landing = true;

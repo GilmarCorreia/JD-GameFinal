@@ -74,6 +74,8 @@ public class CamController : MonoBehaviour
         else 
         {
             center.transform.rotation = Quaternion.RotateTowards(center.transform.rotation, target.transform.rotation, 200f * Time.deltaTime);
+            cameraYrotation = 0;
+            cameraXrotation = 0;
         }
         ZoomCamera();
     }
@@ -105,24 +107,6 @@ public class CamController : MonoBehaviour
         cameraXrotation = Mathf.Clamp(cameraXrotation,camSettings.minClampAngle,camSettings.maxClampAngle);
         cameraYrotation = Mathf.Repeat(cameraYrotation,360);
         Vector3 rotatingAngle = new Vector3(cameraXrotation,cameraYrotation,0);
-        Quaternion rotation = Quaternion.Slerp(center.transform.localRotation, Quaternion.Euler(rotatingAngle), camSettings.rotationSpeed * Time.deltaTime);
-        center.transform.localRotation = rotation;
-    }
-
-    public void RotateCameraHor()
-    {
-        cameraXrotation -= Input.GetAxis(camInputSettings.MouseYAxis) * camSettings.mouseYSense;
-        cameraXrotation = Mathf.Clamp(cameraXrotation, camSettings.minClampAngle, camSettings.maxClampAngle);
-        Vector3 rotatingAngle = new Vector3(cameraXrotation, cameraYrotation, 0);
-        Quaternion rotation = Quaternion.Slerp(center.transform.localRotation, Quaternion.Euler(rotatingAngle), camSettings.rotationSpeed * Time.deltaTime);
-        center.transform.localRotation = rotation;
-    }
-
-    public void RotateCameraVert()
-    {
-        cameraYrotation += Input.GetAxis(camInputSettings.MouseXAxis) * camSettings.mouseXSense;
-        cameraYrotation = Mathf.Repeat(cameraYrotation, 360);
-        Vector3 rotatingAngle = new Vector3(cameraXrotation, cameraYrotation, 0);
         Quaternion rotation = Quaternion.Slerp(center.transform.localRotation, Quaternion.Euler(rotatingAngle), camSettings.rotationSpeed * Time.deltaTime);
         center.transform.localRotation = rotation;
     }

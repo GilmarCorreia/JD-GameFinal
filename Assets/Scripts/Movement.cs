@@ -25,6 +25,7 @@ public class Movement : MonoBehaviour
         public string unequip = "unequip";
         public string fall = "falling";
         public string land = "landing";
+        public string jump = "jump";
     }
     [SerializeField]
     public AnimationStrings animStrings;
@@ -37,6 +38,9 @@ public class Movement : MonoBehaviour
     public bool jumping = false;
     public float fallStep = 0.4f;
     public float landStep = 0.5f;
+    Coroutine JumpCoroutine;
+    Vector3 jumpMove = Vector3.zero;
+    Vector3 jumpDestiny = Vector3.zero;
     //public float fallStep = 0.05f;
     //public float landStep = 0.10f;
 
@@ -59,7 +63,7 @@ public class Movement : MonoBehaviour
 
     private void FixedUpdate()
     {
-        print(cc.velocity);
+        //print(cc.velocity);
         CharacterFall();
         //CharacterLand();
     }
@@ -107,18 +111,51 @@ public class Movement : MonoBehaviour
 
     public void CharacterFire()
     {
-        print("fire");
+        //print("fire");
         anim.SetTrigger(animStrings.fire);
+    }
+
+    public void CharacterJump(bool jumpInput)
+    {
+        if(jumpInput && !falling && !landing)
+        {
+            jumping = true;
+            jumpDestiny = 5f * transform.forward.normalized + 8f * transform.up.normalized;
+            //Vector3 move = Vector3.Slerp(destiny, transform.position, .1f * Time.deltaTime);
+            //cc.Move(new Vector3(10f*transform.forward.x,5f,10f*transform.transform.forward.z));
+
+            //JumpCoroutine = StartCoroutine(JumpMovement(5f*transform.forward + 5f*transform.up));
+            anim.SetBool(animStrings.jump, true);
+        }
+        if (jumping)
+        {
+            cc.Move(jumpMove * Time.deltaTime);
+            jumpMove = Vector3.Slerp(jumpDestiny,transform.position, 1f * Time.deltaTime);
+        }
+
+    }
+
+
+    IEnumerator JumpMovement(Vector3 destiny)
+    {
+
+        while (Vector3.SqrMagnitude(transform.position - destiny) > float.Epsilon)
+        {
+            jumpMove = Vector3.Slerp(transform.position, destiny,1f * Time.deltaTime);
+            //cc.Move(move);
+            yield return new WaitForSeconds(0.1f);
+        }
+        yield return null;
     }
 
     public void CharacterFall()
     {
         //if (!cc.isGrounded)
-        if (!CloseToGround(fallStep,Color.green))
+        if (!CloseToGround(fallStep,Color.green) && !jumping)
         {
             float moveX = 0.01f, moveZ = 0.01f;
             
-            if (rb.velocity.y > -1f && rb.velocity.y < 0.2)
+            if (rb.velocity.y > -1f /*&& rb.velocity.y < 0.2*/)
                 cc.Move(new Vector3(moveX, -gravity * Time.deltaTime, moveZ));
             else
                 cc.Move(new Vector3(0, -gravity * Time.deltaTime, 0));
@@ -152,6 +189,12 @@ public class Movement : MonoBehaviour
         anim.SetBool(animStrings.land, false);
     }
 
+    public void FinishJump()
+    {
+        jumping = false;
+        anim.SetBool(animStrings.jump,false);
+    }
+
     public bool CloseToGround(float extraHeight, Color color)
     {
         RaycastHit hit;
@@ -166,6 +209,7 @@ public class Movement : MonoBehaviour
         Debug.DrawRay(transform.position, Vector3.down, Color.red, 1f);
         //bool grounded = Physics.BoxCast(center, halfExtents, dir, out hit, orientation);
         //ExtDebug.DrawBoxCastOnHit(center, halfExtents, orientation, dir, 0, color);
+        print(transform.position - hit.point);
         return grounded;
     }
 

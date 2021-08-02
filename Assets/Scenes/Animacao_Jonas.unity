@@ -1219,11 +1219,15 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1288944861, guid: ac4a10932f43a324dabd444bfa3e159f, type: 3}
       propertyPath: fallStep
-      value: 0.15
+      value: 1.8
       objectReference: {fileID: 0}
     - target: {fileID: 1288944861, guid: ac4a10932f43a324dabd444bfa3e159f, type: 3}
       propertyPath: landStep
-      value: 0.5
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1288944861, guid: ac4a10932f43a324dabd444bfa3e159f, type: 3}
+      propertyPath: animStrings.jump
+      value: jump
       objectReference: {fileID: 0}
     - target: {fileID: 1288944862, guid: ac4a10932f43a324dabd444bfa3e159f, type: 3}
       propertyPath: gravity

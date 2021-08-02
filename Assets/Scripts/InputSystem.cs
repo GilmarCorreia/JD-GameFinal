@@ -39,11 +39,11 @@ public class InputSystem : MonoBehaviour
     public float rotatingSpeed = 80f;
 
     bool hitDetected = false;
-    bool isAiming;
+    public bool isAiming;
     public bool testAim;
     Transform camCenter;
     public Bow bow;
-    bool armed = false;
+    public bool armed = false;
     Animator playerAnim;
     Rigidbody rb;
     CharacterController cc;
@@ -61,7 +61,7 @@ public class InputSystem : MonoBehaviour
     void Update()
     {
         //print(cc.isGrounded);
-        isAiming = Input.GetButton(input.aim);
+        isAiming = Input.GetButton(input.aim) && armed;
         if (testAim)
             isAiming = true;
         if (Input.GetKeyDown(input.equip))

@@ -32,6 +32,7 @@ public class CamController : MonoBehaviour
     [SerializeField]
     public CameraInputSettings camInputSettings;
 
+    public InputSystem inputSys;
     public CinemachineStateDrivenCamera StateDrivenCam;
     public CinemachineVirtualCamera VCam;
     Animator camAnim;
@@ -64,13 +65,14 @@ public class CamController : MonoBehaviour
         if (!Application.isPlaying)
             return;
 
-        if (Input.GetAxis(input.input.forwardInput) == 0 && Input.GetAxis(input.input.strafeInput) == 0)
+        if (Input.GetAxis(input.input.forwardInput) == 0 && Input.GetAxis(input.input.strafeInput) == 0 || inputSys.isAiming)
         {
             RotateCamera();
+            //RotateCameraHor();
+            //RotateCameraVert();
         }
-        else
+        else 
         {
-            //center.transform.localEulerAngles = Vector3.zero;
             center.transform.rotation = Quaternion.RotateTowards(center.transform.rotation, target.transform.rotation, 200f * Time.deltaTime);
         }
         ZoomCamera();
@@ -107,9 +109,27 @@ public class CamController : MonoBehaviour
         center.transform.localRotation = rotation;
     }
 
+    public void RotateCameraHor()
+    {
+        cameraXrotation -= Input.GetAxis(camInputSettings.MouseYAxis) * camSettings.mouseYSense;
+        cameraXrotation = Mathf.Clamp(cameraXrotation, camSettings.minClampAngle, camSettings.maxClampAngle);
+        Vector3 rotatingAngle = new Vector3(cameraXrotation, cameraYrotation, 0);
+        Quaternion rotation = Quaternion.Slerp(center.transform.localRotation, Quaternion.Euler(rotatingAngle), camSettings.rotationSpeed * Time.deltaTime);
+        center.transform.localRotation = rotation;
+    }
+
+    public void RotateCameraVert()
+    {
+        cameraYrotation += Input.GetAxis(camInputSettings.MouseXAxis) * camSettings.mouseXSense;
+        cameraYrotation = Mathf.Repeat(cameraYrotation, 360);
+        Vector3 rotatingAngle = new Vector3(cameraXrotation, cameraYrotation, 0);
+        Quaternion rotation = Quaternion.Slerp(center.transform.localRotation, Quaternion.Euler(rotatingAngle), camSettings.rotationSpeed * Time.deltaTime);
+        center.transform.localRotation = rotation;
+    }
+
     public void ZoomCamera()
     {
-        if (Input.GetButton(camInputSettings.AimingInput))
+        if (Input.GetButton(camInputSettings.AimingInput) &&inputSys.armed)
         {
             camAnim.Play("AimCam");
         }

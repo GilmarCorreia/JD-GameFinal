@@ -32,12 +32,15 @@ public class Movement : MonoBehaviour
     [Header("Gravity Settings")]
     public float gravity = 10f;
 
-    bool falling = false;
-    bool landing = false;
-    //public float fallStep = 0.4f;
-    //public float landStep = 0.5f;
-    public float fallStep = 0.05f;
-    public float landStep = 0.10f;
+    public bool falling = false;
+    public bool landing = false;
+    public bool jumping = false;
+    public float fallStep = 0.4f;
+    public float landStep = 0.5f;
+    //public float fallStep = 0.05f;
+    //public float landStep = 0.10f;
+
+    InputSystem input;
 
     // Start is called before the first frame update
     void Start()
@@ -45,6 +48,7 @@ public class Movement : MonoBehaviour
         anim = GetComponent<Animator>();
         cc = GetComponent<CharacterController>();
         rb = GetComponent<Rigidbody>();
+        input = GetComponent<InputSystem>();
     }
 
     // Update is called once per frame
@@ -55,18 +59,25 @@ public class Movement : MonoBehaviour
 
     private void FixedUpdate()
     {
+        print(cc.velocity);
         CharacterFall();
         //CharacterLand();
     }
 
     public void AnimateCharacter(float forward,float strafe)
     {
+        if (falling && landing)
+        {
+            forward = 0;
+            strafe = 0;
+        }
         anim.SetFloat(animStrings.forward, forward);
         anim.SetFloat(animStrings.strafe, strafe);
     }
 
     public void SprintCharacter(bool isSprinting)
     {
+        isSprinting = isSprinting && !falling && !landing;
         anim.SetBool(animStrings.run,isSprinting);
     }
 
@@ -105,14 +116,19 @@ public class Movement : MonoBehaviour
         //if (!cc.isGrounded)
         if (!CloseToGround(fallStep,Color.green))
         {
-            cc.Move(new Vector3(0, -gravity * Time.deltaTime, 0));
+            float moveX = 0.01f, moveZ = 0.01f;
+            
+            if (rb.velocity.y > -1f && rb.velocity.y < 0.2)
+                cc.Move(new Vector3(moveX, -gravity * Time.deltaTime, moveZ));
+            else
+                cc.Move(new Vector3(0, -gravity * Time.deltaTime, 0));
             //print(cc.velocity);
             falling = true;
             CharacterLand();
         }
         else
         {
-            cc.Move(new Vector3(0, 0, 0));
+            //cc.Move(new Vector3(0, 0, 0));
             falling = false;
         }
         anim.SetBool(animStrings.fall, falling);
@@ -120,12 +136,13 @@ public class Movement : MonoBehaviour
 
     public void CharacterLand()
     {
+        //if(cc.isGrounded)
         if (CloseToGround(landStep,Color.cyan))
         {
             falling = false;
             landing = true;
-            anim.SetBool(animStrings.land,true);
-            //anim.SetTrigger(animStrings.land);
+            //anim.SetBool(animStrings.land,true);
+            anim.SetTrigger(animStrings.land);
         }
     }
 
@@ -135,30 +152,30 @@ public class Movement : MonoBehaviour
         anim.SetBool(animStrings.land, false);
     }
 
-    //public bool CloseToGround(float extraHeight, Color color)
-    //{
-    //    RaycastHit hit;
-    //    Vector3 dir = transform.forward;
-    //    Vector3 center =  transform.position;
-    //    //Vector3 halfExtents = new Vector3(cc.radius, 0.5f * extraHeight, cc.radius);
-    //    Vector3 halfExtents = new Vector3(cc.radius, extraHeight, cc.radius)*0.5f;
-    //    Quaternion orientation = Quaternion.LookRotation(dir);
-    //    //print(charController.bounds.extents.y + extraHeight);
-
-    //    //bool grounded = Physics.Raycast(transform.position, Vector3.down, out hit, cc.bounds.extents.y + extraHeight);
-    //    //Debug.DrawRay(transform.position, Vector3.down, Color.red, 1f);
-    //    //bool grounded = Physics.BoxCast(center, halfExtents, dir, out hit, orientation);
-    //    //ExtDebug.DrawBoxCastOnHit(center, halfExtents, orientation, dir, 0, color);
-    //    return grounded;
-    //}
-
-    public bool CloseToGround(float gap, Color color)
+    public bool CloseToGround(float extraHeight, Color color)
     {
-        float radius = cc.radius * (1f-gap);
-        Vector3 pos = transform.position - Vector3.up * (radius * 0.9f);
-        bool grounded = Physics.CheckSphere(pos, radius, 1 << 6);
+        RaycastHit hit;
+        Vector3 dir = transform.forward;
+        Vector3 center = transform.position;
+        //Vector3 halfExtents = new Vector3(cc.radius, 0.5f * extraHeight, cc.radius);
+        Vector3 halfExtents = new Vector3(cc.radius, extraHeight, cc.radius) * 0.5f;
+        Quaternion orientation = Quaternion.LookRotation(dir);
+        //print(charController.bounds.extents.y + extraHeight);
+
+        bool grounded = Physics.Raycast(transform.position, Vector3.down, out hit, cc.bounds.extents.y + extraHeight);
+        Debug.DrawRay(transform.position, Vector3.down, Color.red, 1f);
+        //bool grounded = Physics.BoxCast(center, halfExtents, dir, out hit, orientation);
+        //ExtDebug.DrawBoxCastOnHit(center, halfExtents, orientation, dir, 0, color);
         return grounded;
     }
+
+    //public bool CloseToGround(float gap, Color color)
+    //{
+    //    float radius = cc.radius * (1f-gap);
+    //    Vector3 pos = transform.position - Vector3.up * (radius * 0.9f);
+    //    bool grounded = Physics.CheckSphere(pos, radius, 1 << 6);
+    //    return grounded;
+    //}
 
     //public void OnDrawGizmos()
     //{

@@ -42,6 +42,11 @@ public class Movement : MonoBehaviour
     Coroutine JumpCoroutine;
     Vector3 jumpMove = Vector3.zero;
     Vector3 jumpDestiny = Vector3.zero;
+    Vector3 jumpDestinyHor = Vector3.zero;
+    Vector3 jumpDestinyVert = Vector3.zero;
+    Vector3 jumpMoveHor = Vector3.zero;
+    Vector3 jumpMoveVert = Vector3.zero;
+    Vector3[] jumpPositions = new Vector3[2];
     //public float fallStep = 0.05f;
     //public float landStep = 0.10f;
 
@@ -118,36 +123,47 @@ public class Movement : MonoBehaviour
 
     public void CharacterJump(bool jumpInput)
     {
-        if(jumpInput && !falling && !landing)
+        if (jumpInput && !falling && !landing)
         {
+            print("jumping");
             jumping = true;
-            jumpDestiny = 5f * transform.forward.normalized + 8f * transform.up.normalized;
-            //Vector3 move = Vector3.Slerp(destiny, transform.position, .1f * Time.deltaTime);
-            //cc.Move(new Vector3(10f*transform.forward.x,5f,10f*transform.transform.forward.z));
-
-            //JumpCoroutine = StartCoroutine(JumpMovement(5f*transform.forward + 5f*transform.up));
+            //jumpDestiny = transform.position + 5f * transform.forward.normalized + 8f * transform.up.normalized;
+            jumpDestinyHor = 5f * transform.forward.normalized;
+            jumpDestinyVert = 5f * transform.up.normalized;
+            //jumpPositions[0] = transform.position + 1.5f * transform.forward.normalized + 2.5f * transform.up.normalized;
+            //jumpPositions[1] = transform.position + 5f * transform.forward.normalized;
             anim.SetBool(animStrings.jump, true);
         }
         if (jumping)
         {
+            //jumpMove = Vector3.Lerp(jumpMove, jumpDestiny, 10f * Time.deltaTime);
+            jumpMoveHor = Vector3.Lerp(jumpMoveHor, jumpDestinyHor, 10f * Time.deltaTime);
+            jumpMoveVert = Vector3.Lerp(jumpMoveVert, jumpDestinyVert, 10f * Time.deltaTime);
+            Vector3 jumpMove = jumpMoveHor *Input.GetAxis(input.input.forwardInput) + jumpMoveVert;
+            Debug.DrawLine(transform.position, transform.position + jumpMove, Color.yellow);
             cc.Move(jumpMove * Time.deltaTime);
-            jumpMove = Vector3.Slerp(jumpDestiny,transform.position, 1f * Time.deltaTime);
         }
-
-    }
-
-
-    IEnumerator JumpMovement(Vector3 destiny)
-    {
-
-        while (Vector3.SqrMagnitude(transform.position - destiny) > float.Epsilon)
+        else
         {
-            jumpMove = Vector3.Slerp(transform.position, destiny,1f * Time.deltaTime);
-            //cc.Move(move);
-            yield return new WaitForSeconds(0.1f);
+            jumpPositions = new Vector3[2] { Vector3.zero, Vector3.zero };
+            //jumpMove = Vector3.zero;
+            jumpMoveHor = Vector3.zero;
+            jumpMoveVert = Vector3.zero;
         }
-        yield return null;
     }
+
+
+    //IEnumerator JumpMovement(Vector3 destiny)
+    //{
+
+    //    while (Vector3.SqrMagnitude(transform.position - destiny) > float.Epsilon)
+    //    {
+    //        jumpMove = Vector3.Slerp(transform.position, destiny,1f * Time.deltaTime);
+    //        //cc.Move(move);
+    //        yield return new WaitForSeconds(0.1f);
+    //    }
+    //    yield return null;
+    //}
 
     public void CharacterFall()
     {
@@ -216,7 +232,7 @@ public class Movement : MonoBehaviour
         Debug.DrawRay(transform.position, Vector3.down, Color.red, 1f);
         //bool grounded = Physics.BoxCast(center, halfExtents, dir, out hit, orientation);
         //ExtDebug.DrawBoxCastOnHit(center, halfExtents, orientation, dir, 0, color);
-        print(transform.position - hit.point);
+        //print(transform.position - hit.point);
         return grounded;
     }
 

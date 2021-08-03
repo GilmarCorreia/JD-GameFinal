@@ -27,6 +27,8 @@ public class Movement : MonoBehaviour
         public string land = "land";
         public string landing = "landing";
         public string jump = "jump";
+        public string crouch = "crouching";
+        public string dodge = "dodge";
     }
     [SerializeField]
     public AnimationStrings animStrings;
@@ -37,6 +39,7 @@ public class Movement : MonoBehaviour
     public bool falling = false;
     public bool landing = false;
     public bool jumping = false;
+    public bool dodging = false;
     public float fallStep = 0.4f;
     public float landStep = 0.5f;
     Coroutine JumpCoroutine;
@@ -46,9 +49,7 @@ public class Movement : MonoBehaviour
     Vector3 jumpDestinyVert = Vector3.zero;
     Vector3 jumpMoveHor = Vector3.zero;
     Vector3 jumpMoveVert = Vector3.zero;
-    Vector3[] jumpPositions = new Vector3[2];
-    //public float fallStep = 0.05f;
-    //public float landStep = 0.10f;
+    Vector3 dodgeImpulse = Vector3.zero;
 
     InputSystem input;
 
@@ -91,6 +92,12 @@ public class Movement : MonoBehaviour
         anim.SetBool(animStrings.run,isSprinting);
     }
 
+    public void CharacterCrouch(bool isCrouching)
+    {
+        isCrouching = isCrouching && !falling && !landing;
+        anim.SetBool(animStrings.crouch, isCrouching);
+    }
+
     public void RotateCharacter(float turningSpeed)
     {
         var impulse = (turningSpeed * Mathf.Deg2Rad) * Vector3.up;
@@ -121,22 +128,44 @@ public class Movement : MonoBehaviour
         anim.SetTrigger(animStrings.fire);
     }
 
+    public void CharacterDodge(bool dodgeInput)
+    {
+        //dodgeInput = dodgeInput && !falling && !landing;
+        //if (dodgeInput)
+        //{
+        //    anim.SetTrigger(animStrings.dodge);
+        //}
+
+        float forward = Input.GetAxis(input.input.forwardInput);
+        float strafe = Input.GetAxis(input.input.strafeInput);
+        if (dodgeInput && !falling && !landing)
+        {
+            dodging = true;
+            anim.SetTrigger(animStrings.dodge);
+        }
+        if (dodging)
+        {
+            dodgeImpulse = forward * transform.forward + strafe * transform.right;
+            cc.Move(2.5f * dodgeImpulse.normalized * Time.deltaTime);
+        }
+        else
+        {
+            dodgeImpulse = Vector3.zero;
+        }
+    }
+
     public void CharacterJump(bool jumpInput)
     {
         if (jumpInput && !falling && !landing)
         {
-            print("jumping");
+            //print("jumping");
             jumping = true;
-            //jumpDestiny = transform.position + 5f * transform.forward.normalized + 8f * transform.up.normalized;
             jumpDestinyHor = 5f * transform.forward.normalized;
             jumpDestinyVert = 5f * transform.up.normalized;
-            //jumpPositions[0] = transform.position + 1.5f * transform.forward.normalized + 2.5f * transform.up.normalized;
-            //jumpPositions[1] = transform.position + 5f * transform.forward.normalized;
             anim.SetBool(animStrings.jump, true);
         }
         if (jumping)
         {
-            //jumpMove = Vector3.Lerp(jumpMove, jumpDestiny, 10f * Time.deltaTime);
             jumpMoveHor = Vector3.Lerp(jumpMoveHor, jumpDestinyHor, 10f * Time.deltaTime);
             jumpMoveVert = Vector3.Lerp(jumpMoveVert, jumpDestinyVert, 10f * Time.deltaTime);
             Vector3 jumpMove = jumpMoveHor *Input.GetAxis(input.input.forwardInput) + jumpMoveVert;
@@ -145,8 +174,6 @@ public class Movement : MonoBehaviour
         }
         else
         {
-            jumpPositions = new Vector3[2] { Vector3.zero, Vector3.zero };
-            //jumpMove = Vector3.zero;
             jumpMoveHor = Vector3.zero;
             jumpMoveVert = Vector3.zero;
         }

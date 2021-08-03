@@ -14,7 +14,9 @@ public class InputSystem : MonoBehaviour
         public string forwardInput = "Vertical";
         public string strafeInput = "Horizontal";
         public string sprintInput = "Sprint";
+        public string crouch = "Crouch";
         public string jump = "Jump";
+        public string dodge = "Dodge";
         public string aim = "Fire2";
         public string fire = "Fire1";
         public string equip = "1";
@@ -71,7 +73,9 @@ public class InputSystem : MonoBehaviour
         }
         MoveScript.AnimateCharacter(Input.GetAxis(input.forwardInput),Input.GetAxis(input.strafeInput));
         MoveScript.SprintCharacter(Input.GetButton(input.sprintInput));
+        MoveScript.CharacterCrouch(Input.GetButton(input.crouch));
         MoveScript.CharacterJump(Input.GetButtonDown(input.jump));
+        MoveScript.CharacterDodge(Input.GetButtonDown(input.dodge));
         if (Input.GetAxis(input.forwardInput)!=0 || Input.GetAxis(input.strafeInput)!=0 || !isAiming)
         {
             MoveScript.RotateCharacter(rotatingSpeed * Input.GetAxis("Mouse X"));

@@ -36,6 +36,14 @@
                     "expectedControlType": "",
                     "processors": "",
                     "interactions": ""
+                },
+                {
+                    "name": "Dive",
+                    "type": "PassThrough",
+                    "id": "4b9dfc43-f929-41dd-a37c-3958a1dea222",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": ""
                 }
             ],
             "bindings": [
@@ -151,6 +159,17 @@
                 },
                 {
                     "name": "",
+                    "id": "c3ebb475-ca3d-433a-9ea4-ad61a34e219a",
+                    "path": "<DualShockGamepad>/leftStick",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "PS4 Controller",
+                    "action": "Move",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
                     "id": "ed66cbff-2900-4a62-8896-696503cfcd31",
                     "path": "<Pointer>/delta",
                     "interactions": "",
@@ -167,6 +186,17 @@
                     "interactions": "",
                     "processors": "InvertVector2(invertX=false),StickDeadzone,ScaleVector2(x=300,y=300)",
                     "groups": "Gamepad",
+                    "action": "Look",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "673dc238-45a3-4e33-8fe7-787555846669",
+                    "path": "<DualShockGamepad>/rightStick",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "PS4 Controller",
                     "action": "Look",
                     "isComposite": false,
                     "isPartOfComposite": false
@@ -195,6 +225,17 @@
                 },
                 {
                     "name": "",
+                    "id": "0d9b5e46-3f99-437b-ba13-8a23b7c45227",
+                    "path": "<DualShockGamepad>/buttonSouth",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "PS4 Controller",
+                    "action": "Jump",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
                     "id": "dc65b89f-9bd3-43fb-92af-d0d87ba5faa4",
                     "path": "<Keyboard>/leftShift",
                     "interactions": "",
@@ -206,12 +247,45 @@
                 },
                 {
                     "name": "",
-                    "id": "c8fcd86e-dcfd-4f88-8e93-b638cdbf3320",
-                    "path": "<Gamepad>/leftTrigger",
+                    "id": "a2bebfe0-8216-4531-8b0d-56b816a068aa",
+                    "path": "<Gamepad>/leftShoulder",
                     "interactions": "",
                     "processors": "",
                     "groups": "Gamepad",
                     "action": "Sprint",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "73db38d0-1d9c-4865-a223-aaff8fd2960c",
+                    "path": "<DualShockGamepad>/leftShoulder",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "PS4 Controller",
+                    "action": "Sprint",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "4d17eee6-b950-4f3a-ac99-78910121e2e4",
+                    "path": "<Keyboard>/q",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "KeyboardMouse",
+                    "action": "Dive",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "f4db5158-2ee9-4746-942b-335e61c91282",
+                    "path": "<DualShockGamepad>/buttonEast",
+                    "interactions": "MultiTap",
+                    "processors": "",
+                    "groups": "PS4 Controller",
+                    "action": "Dive",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

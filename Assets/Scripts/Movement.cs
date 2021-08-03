@@ -152,19 +152,6 @@ public class Movement : MonoBehaviour
         }
     }
 
-
-    //IEnumerator JumpMovement(Vector3 destiny)
-    //{
-
-    //    while (Vector3.SqrMagnitude(transform.position - destiny) > float.Epsilon)
-    //    {
-    //        jumpMove = Vector3.Slerp(transform.position, destiny,1f * Time.deltaTime);
-    //        //cc.Move(move);
-    //        yield return new WaitForSeconds(0.1f);
-    //    }
-    //    yield return null;
-    //}
-
     public void CharacterFall()
     {
         //if (!cc.isGrounded)
@@ -235,23 +222,4 @@ public class Movement : MonoBehaviour
         //print(transform.position - hit.point);
         return grounded;
     }
-
-    //public bool CloseToGround(float gap, Color color)
-    //{
-    //    float radius = cc.radius * (1f-gap);
-    //    Vector3 pos = transform.position - Vector3.up * (radius * 0.9f);
-    //    bool grounded = Physics.CheckSphere(pos, radius, 1 << 6);
-    //    return grounded;
-    //}
-
-    //public void OnDrawGizmos()
-    //{
-    //    float extraHeight1 = .5f;
-    //    float extraHeight2 = .2f;
-    //    Gizmos.color = Color.green;
-    //    Gizmos.DrawWireCube(transform.position - 0.1f * Vector3.up, new Vector3(cc.radius, 0.5f * extraHeight1, cc.radius));
-    //    Gizmos.color = Color.blue;
-    //    Gizmos.DrawWireCube(transform.position - 0.1f * Vector3.up, new Vector3(cc.radius, 0.5f * extraHeight2, cc.radius));
-
-    //}
 }

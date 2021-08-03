@@ -32,6 +32,7 @@ public class CamController : MonoBehaviour
     [SerializeField]
     public CameraInputSettings camInputSettings;
 
+    public InputSystem inputSys;
     public CinemachineStateDrivenCamera StateDrivenCam;
     public CinemachineVirtualCamera VCam;
     Animator camAnim;
@@ -64,14 +65,17 @@ public class CamController : MonoBehaviour
         if (!Application.isPlaying)
             return;
 
-        if (Input.GetAxis(input.input.forwardInput) == 0 && Input.GetAxis(input.input.strafeInput) == 0)
+        if (Input.GetAxis(input.input.forwardInput) == 0 && Input.GetAxis(input.input.strafeInput) == 0 || inputSys.isAiming)
         {
             RotateCamera();
+            //RotateCameraHor();
+            //RotateCameraVert();
         }
-        else
+        else 
         {
-            //center.transform.localEulerAngles = Vector3.zero;
             center.transform.rotation = Quaternion.RotateTowards(center.transform.rotation, target.transform.rotation, 200f * Time.deltaTime);
+            cameraYrotation = 0;
+            cameraXrotation = 0;
         }
         ZoomCamera();
     }
@@ -109,7 +113,7 @@ public class CamController : MonoBehaviour
 
     public void ZoomCamera()
     {
-        if (Input.GetButton(camInputSettings.AimingInput))
+        if (Input.GetButton(camInputSettings.AimingInput) &&inputSys.armed)
         {
             camAnim.Play("AimCam");
         }

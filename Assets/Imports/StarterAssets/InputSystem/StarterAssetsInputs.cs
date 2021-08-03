@@ -12,6 +12,7 @@ namespace StarterAssets
 		public Vector2 look;
 		public bool jump;
 		public bool sprint;
+		public bool dive;
 
 		[Header("Movement Settings")]
 		public bool analogMovement;
@@ -45,8 +46,13 @@ namespace StarterAssets
 		{
 			SprintInput(value.isPressed);
 		}
+
+		public void OnDive(InputValue value)
+		{
+			DiveInput(value.isPressed);
+		}
 #else
-	// old input sys if we do decide to have it (most likely wont)...
+		// old input sys if we do decide to have it (most likely wont)...
 #endif
 
 
@@ -70,6 +76,10 @@ namespace StarterAssets
 			sprint = newSprintState;
 		}
 
+		public void DiveInput(bool newDiveState)
+		{
+			dive = newDiveState;
+		}
 #if !UNITY_IOS || !UNITY_ANDROID
 
 		private void OnApplicationFocus(bool hasFocus)

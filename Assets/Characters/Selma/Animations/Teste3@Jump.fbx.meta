@@ -41,19 +41,19 @@ ModelImporter:
       name: JUMP_START
       takeName: mixamo.com
       internalID: 0
-      firstFrame: 15
-      lastFrame: 27
+      firstFrame: 24
+      lastFrame: 32
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
       cycleOffset: 0
       loop: 0
       hasAdditiveReferencePose: 0
-      loopTime: 1
-      loopBlend: 0
+      loopTime: 0
+      loopBlend: 1
       loopBlendOrientation: 1
       loopBlendPositionY: 1
-      loopBlendPositionXZ: 0
+      loopBlendPositionXZ: 1
       keepOriginalOrientation: 1
       keepOriginalPositionY: 1
       keepOriginalPositionXZ: 1
@@ -70,8 +70,8 @@ ModelImporter:
       name: JUMP_LAND
       takeName: mixamo.com
       internalID: 0
-      firstFrame: 31
-      lastFrame: 50
+      firstFrame: 55
+      lastFrame: 68
       wrapMode: 0
       orientationOffsetY: 0
       level: 0

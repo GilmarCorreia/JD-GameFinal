@@ -84,7 +84,8 @@ public class Movement : MonoBehaviour
         }
         anim.SetFloat(animStrings.forward, forward);
         anim.SetFloat(animStrings.strafe, strafe);
-        Move(walkSpeed);
+        //if(!input.isAiming)
+            //Move(walkSpeed);
     }
 
     public void SprintCharacter(bool isSprinting)

@@ -27,6 +27,7 @@ public class Movement : MonoBehaviour
         public string land = "land";
         public string landing = "landing";
         public string jump = "jump";
+        public string crouch = "crouching";
     }
     [SerializeField]
     public AnimationStrings animStrings;
@@ -89,6 +90,12 @@ public class Movement : MonoBehaviour
     {
         isSprinting = isSprinting && !falling && !landing;
         anim.SetBool(animStrings.run,isSprinting);
+    }
+
+    public void CharacterCrouch(bool isCrouching)
+    {
+        isCrouching = isCrouching && !falling && !landing;
+        anim.SetBool(animStrings.crouch, isCrouching);
     }
 
     public void RotateCharacter(float turningSpeed)

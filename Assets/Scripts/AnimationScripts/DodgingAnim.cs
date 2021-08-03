@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class DodgingAnim : StateMachineBehaviour
 {
-    override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
+    override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         Movement moveScript = animator.GetComponent<Movement>();
         moveScript.dodging = false;

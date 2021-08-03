@@ -49,8 +49,7 @@ public class Movement : MonoBehaviour
     Vector3 jumpDestinyVert = Vector3.zero;
     Vector3 jumpMoveHor = Vector3.zero;
     Vector3 jumpMoveVert = Vector3.zero;
-    Vector3 dodgeTarget = Vector3.zero;
-    Vector3 dodgeMove = Vector3.zero;
+    Vector3 dodgeImpulse = Vector3.zero;
 
     InputSystem input;
 
@@ -131,29 +130,28 @@ public class Movement : MonoBehaviour
 
     public void CharacterDodge(bool dodgeInput)
     {
-        dodgeInput = dodgeInput && !falling && !landing;
-        if (dodgeInput)
-        {
-            anim.SetTrigger(animStrings.dodge);
-        }
-     
-        //float forward = Input.GetAxis(input.input.forwardInput);
-        //float strafe = Input.GetAxis(input.input.strafeInput);
-        //if (dodgeInput && !falling && !landing)
+        //dodgeInput = dodgeInput && !falling && !landing;
+        //if (dodgeInput)
         //{
-        //    dodging = true;
-        //    dodgeTarget = forward * transform.forward + strafe * transform.right;
         //    anim.SetTrigger(animStrings.dodge);
         //}
-        //if (dodging)
-        //{
-        //    dodgeMove = Vector3.Lerp(dodgeMove, dodgeTarget, 10f * Time.deltaTime);
-        //    cc.Move(10f*dodgeMove.normalized * Time.deltaTime);
-        //}
-        //else
-        //{
-        //    dodgeMove = Vector3.zero;
-        //}    
+
+        float forward = Input.GetAxis(input.input.forwardInput);
+        float strafe = Input.GetAxis(input.input.strafeInput);
+        if (dodgeInput && !falling && !landing)
+        {
+            dodging = true;
+            anim.SetTrigger(animStrings.dodge);
+        }
+        if (dodging)
+        {
+            dodgeImpulse = forward * transform.forward + strafe * transform.right;
+            cc.Move(2.5f * dodgeImpulse.normalized * Time.deltaTime);
+        }
+        else
+        {
+            dodgeImpulse = Vector3.zero;
+        }
     }
 
     public void CharacterJump(bool jumpInput)

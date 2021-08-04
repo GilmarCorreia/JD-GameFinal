@@ -54,7 +54,7 @@ public class InputSystem : MonoBehaviour
     IEnumerator SpineRotateCoroutine = null;
     float delayToRotateSpine = .5f;
     float rotateSpineTimer = 0f;
-    bool doSpineRotation = false;
+    public bool doSpineRotation = false;
 
     // Start is called before the first frame update
     void Start()
@@ -133,7 +133,8 @@ public class InputSystem : MonoBehaviour
         {
             hitDetected = true;
             Debug.DrawLine(ray.origin, hit.point, Color.green);
-            bow.ShowCrosshair(hit.point);
+            if(doSpineRotation)
+                bow.ShowCrosshair(hit.point);
         }
         else
         {

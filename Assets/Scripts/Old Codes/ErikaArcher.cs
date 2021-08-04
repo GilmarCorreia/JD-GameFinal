@@ -320,11 +320,11 @@ public class ErikaArcher : MonoBehaviour
         if(Physics.Raycast(ray,out hit, 500f))
         {
             Debug.DrawLine(ray.origin, hit.point,Color.green);
-            bow.ShowCrosshair(hit.point);
+            //bow.ShowCrosshair(hit.point);
         }
         else
         {
-            bow.RemoveCrosshair();
+            //bow.RemoveCrosshair();
         }
 
         anim.SetBool("drawing", drawing);

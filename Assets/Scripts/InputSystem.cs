@@ -20,6 +20,7 @@ public class InputSystem : MonoBehaviour
         public string aim = "Fire2";
         public string fire = "Fire1";
         public string equip = "1";
+        public string grab_item = "GetItem";
     }
     [SerializeField]
     public InputSettings input;
@@ -81,6 +82,7 @@ public class InputSystem : MonoBehaviour
         MoveScript.CharacterCrouch(Input.GetButton(input.crouch));
         MoveScript.CharacterJump(Input.GetButtonDown(input.jump));
         MoveScript.CharacterDodge(Input.GetButtonDown(input.dodge));
+        MoveScript.CharacterGrabItem(Input.GetButtonDown(input.grab_item));
         if (Input.GetAxis(input.forwardInput)!=0 || Input.GetAxis(input.strafeInput)!=0 || !isAiming)
         {
             MoveScript.RotateCharacter(rotatingSpeed * Input.GetAxis("Mouse X"));

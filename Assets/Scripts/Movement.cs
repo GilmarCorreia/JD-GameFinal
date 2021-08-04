@@ -29,6 +29,7 @@ public class Movement : MonoBehaviour
         public string jump = "jump";
         public string crouch = "crouching";
         public string dodge = "dodge";
+        public string grab_item = "grab_item";
     }
     [SerializeField]
     public AnimationStrings animStrings;
@@ -222,6 +223,15 @@ public void CharacterJump(bool jumpInput)
         }
     }
 
+    public void CharacterGrabItem(bool grabInput)
+    {
+        if(grabInput && LookForItems())
+        {
+            anim.SetTrigger(animStrings.grab_item);
+        }
+        
+    }
+
     public void Move(float speed)
     {
         Vector3 move = anim.GetFloat(animStrings.forward) * transform.forward + anim.GetFloat(animStrings.strafe) * transform.right;
@@ -271,5 +281,10 @@ public void CharacterJump(bool jumpInput)
         //ExtDebug.DrawBoxCastOnHit(center, halfExtents, orientation, dir, 0, color);
         //print(transform.position - hit.point);
         return grounded;
+    }
+
+    public bool LookForItems()
+    {
+        return true; // modificar
     }
 }

@@ -20,6 +20,7 @@ public class InputSystem : MonoBehaviour
         public string aim = "Fire2";
         public string fire = "Fire1";
         public string equip = "1";
+        public string grab_item = "GetItem";
     }
     [SerializeField]
     public InputSettings input;
@@ -50,6 +51,11 @@ public class InputSystem : MonoBehaviour
     Rigidbody rb;
     CharacterController cc;
 
+    IEnumerator SpineRotateCoroutine = null;
+    float delayToRotateSpine = .5f;
+    float rotateSpineTimer = 0f;
+    public bool doSpineRotation = false;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -76,6 +82,7 @@ public class InputSystem : MonoBehaviour
         MoveScript.CharacterCrouch(Input.GetButton(input.crouch));
         MoveScript.CharacterJump(Input.GetButtonDown(input.jump));
         MoveScript.CharacterDodge(Input.GetButtonDown(input.dodge));
+        MoveScript.CharacterGrabItem(Input.GetButtonDown(input.grab_item));
         if (Input.GetAxis(input.forwardInput)!=0 || Input.GetAxis(input.strafeInput)!=0 || !isAiming)
         {
             MoveScript.RotateCharacter(rotatingSpeed * Input.GetAxis("Mouse X"));
@@ -126,7 +133,8 @@ public class InputSystem : MonoBehaviour
         {
             hitDetected = true;
             Debug.DrawLine(ray.origin, hit.point, Color.green);
-            bow.ShowCrosshair(hit.point);
+            if(doSpineRotation)
+                bow.ShowCrosshair(hit.point);
         }
         else
         {
@@ -137,8 +145,47 @@ public class InputSystem : MonoBehaviour
 
     void RotateCharacterSpine()
     {
-        spine.LookAt(ray.GetPoint(50));
-        spine.Rotate(spineOffset);
+        if (Input.GetButtonDown(input.aim))
+        {
+            rotateSpineTimer = delayToRotateSpine;
+            doSpineRotation = false;
+        }
+        if (rotateSpineTimer > 0)
+        {
+            rotateSpineTimer -= Time.deltaTime;
+        }
+        else
+        {
+            doSpineRotation = true;
+        }
+        if (doSpineRotation)
+        {
+            spine.LookAt(ray.GetPoint(50));
+            spine.Rotate(spineOffset);
+        }
+        print(rotateSpineTimer);
+        print(doSpineRotation);
+        //spine.LookAt(ray.GetPoint(50));
+        //spine.Rotate(spineOffset);
+    }
+
+    //IEnumerator WaitForSec(float sec)
+    //{
+    //    //yield return new WaitForSeconds(sec);
+    //    //while (true)
+    //    //{
+    //    //    print("AAA");
+    //    //    yield return new WaitForSeconds(sec);
+    //    //    print("BBB");
+    //    //    break;
+    //    //}
+    //    //print("CCC");
+    //    StopCoroutine(SpineRotateCoroutine);
+    //}
+
+    public void CountdownRotateSpine()
+    {
+
     }
 
     public void PullString()

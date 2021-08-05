@@ -54,6 +54,7 @@ public class CamController : MonoBehaviour
         //VCam = GetComponent<CinemachineVirtualCamera>();
         //print(VCam.Follow);
         center = VCam.Follow.transform;
+        Cursor.lockState = CursorLockMode.Locked;
     }
 
     // Update is called once per frame

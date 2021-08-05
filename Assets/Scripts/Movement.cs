@@ -29,6 +29,7 @@ public class Movement : MonoBehaviour
         public string jump = "jump";
         public string crouch = "crouching";
         public string dodge = "dodge";
+        public string grab_item = "grab_item";
     }
     [SerializeField]
     public AnimationStrings animStrings;
@@ -42,14 +43,14 @@ public class Movement : MonoBehaviour
     public bool dodging = false;
     public float fallStep = 0.4f;
     public float landStep = 0.5f;
-    Coroutine JumpCoroutine;
-    Vector3 jumpMove = Vector3.zero;
-    Vector3 jumpDestiny = Vector3.zero;
+    public float walkSpeed = 6f;
+    public float dodgeImpulse = 10f;
+
     Vector3 jumpDestinyHor = Vector3.zero;
     Vector3 jumpDestinyVert = Vector3.zero;
     Vector3 jumpMoveHor = Vector3.zero;
     Vector3 jumpMoveVert = Vector3.zero;
-    Vector3 dodgeImpulse = Vector3.zero;
+    Vector3 dodgeMove = Vector3.zero;
 
     InputSystem input;
 
@@ -84,6 +85,8 @@ public class Movement : MonoBehaviour
         }
         anim.SetFloat(animStrings.forward, forward);
         anim.SetFloat(animStrings.strafe, strafe);
+        //if(!input.isAiming)
+            //Move(walkSpeed);
     }
 
     public void SprintCharacter(bool isSprinting)
@@ -140,21 +143,21 @@ public class Movement : MonoBehaviour
         float strafe = Input.GetAxis(input.input.strafeInput);
         if (dodgeInput && !falling && !landing)
         {
-            dodging = true;
+            //dodging = true;
             anim.SetTrigger(animStrings.dodge);
         }
         if (dodging)
         {
-            dodgeImpulse = forward * transform.forward + strafe * transform.right;
-            cc.Move(2.5f * dodgeImpulse.normalized * Time.deltaTime);
+            dodgeMove = forward * transform.forward + 0.5f * strafe * transform.right;
+            cc.Move(dodgeImpulse * dodgeMove.normalized * Time.deltaTime);
         }
         else
         {
-            dodgeImpulse = Vector3.zero;
+            dodgeMove = Vector3.zero;
         }
     }
 
-    public void CharacterJump(bool jumpInput)
+public void CharacterJump(bool jumpInput)
     {
         if (jumpInput && !falling && !landing)
         {
@@ -220,6 +223,26 @@ public class Movement : MonoBehaviour
         }
     }
 
+    public void CharacterGrabItem(bool grabInput)
+    {
+        if(grabInput && LookForItems())
+        {
+            anim.SetTrigger(animStrings.grab_item);
+        }
+        
+    }
+
+    public void Move(float speed)
+    {
+        Vector3 move = anim.GetFloat(animStrings.forward) * transform.forward + anim.GetFloat(animStrings.strafe) * transform.right;
+        cc.Move(speed * move.normalized * Time.deltaTime);
+    }
+
+    public void StopMoving()
+    {
+        cc.Move(Vector3.zero);
+    }
+
     public void FinishLanding()
     {
         landing = false;
@@ -230,6 +253,16 @@ public class Movement : MonoBehaviour
     {
         jumping = false;
         anim.SetBool(animStrings.jump,false);
+    }
+
+    public void DodgeStart()
+    {
+        dodging = true;
+    }
+
+    public void DodgeStop()
+    {
+        dodging = false;
     }
 
     public bool CloseToGround(float extraHeight, Color color)
@@ -248,5 +281,10 @@ public class Movement : MonoBehaviour
         //ExtDebug.DrawBoxCastOnHit(center, halfExtents, orientation, dir, 0, color);
         //print(transform.position - hit.point);
         return grounded;
+    }
+
+    public bool LookForItems()
+    {
+        return true; // modificar
     }
 }

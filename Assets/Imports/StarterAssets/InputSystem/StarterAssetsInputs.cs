@@ -13,6 +13,16 @@ namespace StarterAssets
 		public bool jump;
 		public bool sprint;
 		public bool dive;
+		public bool flashlight;
+		private bool flashMode = false;
+
+		public bool pickObject;
+
+		public bool equipBow;
+		private bool equipMode = false;
+
+		public bool aiming;
+		public bool shoot;
 
 		[Header("Movement Settings")]
 		public bool analogMovement;
@@ -51,6 +61,40 @@ namespace StarterAssets
 		{
 			DiveInput(value.isPressed);
 		}
+
+		public void OnFlashlight(InputValue value)
+        {
+			if (value.isPressed)
+			{
+				flashMode = !flashMode;
+				FlashlightInput(flashMode);
+			}
+        }
+
+		public void OnPickObject(InputValue value)
+		{
+			PickObjectInput(value.isPressed);
+		}
+
+		public void OnEquipBow(InputValue value)
+		{
+			if(value.isPressed)
+			{
+				equipMode = !equipMode;
+				EquipBowInput(equipMode);
+			}
+		}
+
+		public void OnAiming(InputValue value)
+		{
+			AimingInput(value.isPressed);
+		}
+
+		public void OnShoot(InputValue value)
+		{
+			ShootInput(value.isPressed);
+		}
+
 #else
 		// old input sys if we do decide to have it (most likely wont)...
 #endif
@@ -80,6 +124,32 @@ namespace StarterAssets
 		{
 			dive = newDiveState;
 		}
+
+		public void FlashlightInput(bool newFlashlightState)
+		{
+			flashlight = newFlashlightState;
+		}
+
+		public void PickObjectInput(bool newPickObjectState)
+		{
+			pickObject = newPickObjectState;
+		}
+
+		public void EquipBowInput(bool newEquipBowState)
+		{
+			equipBow = newEquipBowState;
+		}
+
+		public void AimingInput(bool newAimingState)
+		{
+			aiming = newAimingState;
+		}
+
+		public void ShootInput(bool newShootState)
+		{
+			shoot = newShootState;
+		}
+
 #if !UNITY_IOS || !UNITY_ANDROID
 
 		private void OnApplicationFocus(bool hasFocus)

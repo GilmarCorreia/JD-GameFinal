@@ -82,6 +82,10 @@ namespace StarterAssets
 		private int _animIDFreeFall;
 		private int _animIDMotionSpeed;
 		private int _animIDDive;
+		private int _animIDPickBow;
+		private int _animIDArmedBow;
+		private int _animIDAiming;
+		private int _animIDShoot;
 
 		private Animator _animator;
 		private CharacterController _controller;
@@ -121,7 +125,37 @@ namespace StarterAssets
 			JumpAndGravity();
 			GroundedCheck();
 			Move();
+			PickObject();
+			ShootingMecanics();
 		}
+
+		private void PickObject()
+        {
+            if (_input.pickObject)
+            {
+				_animator.SetBool(_animIDPickBow, true);
+			}
+		}
+
+		private void ShootingMecanics()
+        {
+			if (_input.equipBow)
+			{
+				_animator.SetBool(_animIDArmedBow, true);
+			}
+
+			if (_input.aiming)
+			{
+				_animator.SetBool(_animIDAiming, true);
+			}
+
+			if (_input.shoot)
+			{
+				_animator.SetBool(_animIDShoot, true);
+			}
+		}
+
+
 
 		private void LateUpdate()
 		{
@@ -136,6 +170,10 @@ namespace StarterAssets
 			_animIDFreeFall = Animator.StringToHash("FreeFall");
 			_animIDMotionSpeed = Animator.StringToHash("MotionSpeed");
 			_animIDDive = Animator.StringToHash("Dive");
+			_animIDPickBow = Animator.StringToHash("PickBow");
+			_animIDArmedBow = Animator.StringToHash("ArmedBow");
+			_animIDAiming = Animator.StringToHash("AimingBow");
+			_animIDShoot = Animator.StringToHash("Shoot");
 		}
 
 		private void GroundedCheck()
@@ -173,6 +211,11 @@ namespace StarterAssets
             if (_input.dive){
 				_animator.SetBool(_animIDDive, true);
 			}
+
+            /*if (_hasAnimator)
+            {
+				
+			}*/
 
 			// set target speed based on move speed, sprint speed and if sprint is pressed
 			float targetSpeed = _input.sprint ? SprintSpeed : MoveSpeed;
@@ -241,8 +284,13 @@ namespace StarterAssets
 				_fallTimeoutDelta = FallTimeout;
 
 				// update animator if using character
+				_animator.SetBool(_animIDPickBow, false);
 				if (_hasAnimator)
 				{
+					_animator.SetBool(_animIDDive, false);
+					_animator.SetBool(_animIDArmedBow, false);
+					_animator.SetBool(_animIDAiming, false);
+					_animator.SetBool(_animIDShoot, false);
 					_animator.SetBool(_animIDJump, false);
 					_animator.SetBool(_animIDFreeFall, false);
 				}

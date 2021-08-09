@@ -86,7 +86,11 @@
       "url": "https://packages.unity.com"
     },
     "com.unity.render-pipelines.core": {
+<<<<<<< HEAD
       "version": "10.5.1",
+=======
+      "version": "10.5.0",
+>>>>>>> 5b081bc838f414e178f73af95c5fae0939b2ae8c
       "depth": 1,
       "source": "registry",
       "dependencies": {
@@ -107,6 +111,7 @@
       "url": "https://packages.unity.com"
     },
     "com.unity.render-pipelines.high-definition-config": {
+<<<<<<< HEAD
       "version": "10.5.0",
       "depth": 1,
       "source": "registry",
@@ -125,6 +130,14 @@
         "com.unity.shadergraph": "10.5.1"
       },
       "url": "https://packages.unity.com"
+=======
+      "version": "file:../LocalPackages/com.unity.render-pipelines.high-definition-config",
+      "depth": 0,
+      "source": "local",
+      "dependencies": {
+        "com.unity.render-pipelines.core": "10.5.0"
+      }
+>>>>>>> 5b081bc838f414e178f73af95c5fae0939b2ae8c
     },
     "com.unity.searcher": {
       "version": "4.3.2",
@@ -134,13 +147,28 @@
       "url": "https://packages.unity.com"
     },
     "com.unity.shadergraph": {
+<<<<<<< HEAD
       "version": "10.5.1",
       "depth": 1,
       "source": "registry",
       "dependencies": {
         "com.unity.render-pipelines.core": "10.5.1",
+=======
+      "version": "10.5.0",
+      "depth": 1,
+      "source": "registry",
+      "dependencies": {
+        "com.unity.render-pipelines.core": "10.5.0",
+>>>>>>> 5b081bc838f414e178f73af95c5fae0939b2ae8c
         "com.unity.searcher": "4.3.2"
       },
+      "url": "https://packages.unity.com"
+    },
+    "com.unity.subsystemregistration": {
+      "version": "1.0.6",
+      "depth": 1,
+      "source": "registry",
+      "dependencies": {},
       "url": "https://packages.unity.com"
     },
     "com.unity.terrain-tools": {
@@ -193,11 +221,42 @@
     },
     "com.unity.visualeffectgraph": {
       "version": "10.5.0",
+<<<<<<< HEAD
       "depth": 0,
       "source": "registry",
       "dependencies": {
         "com.unity.shadergraph": "10.5.0",
         "com.unity.render-pipelines.core": "10.5.0"
+=======
+      "depth": 0,
+      "source": "registry",
+      "dependencies": {
+        "com.unity.shadergraph": "10.5.0",
+        "com.unity.render-pipelines.core": "10.5.0"
+      },
+      "url": "https://packages.unity.com"
+    },
+    "com.unity.xr.legacyinputhelpers": {
+      "version": "2.1.7",
+      "depth": 1,
+      "source": "registry",
+      "dependencies": {
+        "com.unity.modules.vr": "1.0.0",
+        "com.unity.modules.xr": "1.0.0"
+      },
+      "url": "https://packages.unity.com"
+    },
+    "com.unity.xr.management": {
+      "version": "4.0.7",
+      "depth": 0,
+      "source": "registry",
+      "dependencies": {
+        "com.unity.modules.subsystems": "1.0.0",
+        "com.unity.modules.vr": "1.0.0",
+        "com.unity.modules.xr": "1.0.0",
+        "com.unity.xr.legacyinputhelpers": "2.1.7",
+        "com.unity.subsystemregistration": "1.0.6"
+>>>>>>> 5b081bc838f414e178f73af95c5fae0939b2ae8c
       },
       "url": "https://packages.unity.com"
     },

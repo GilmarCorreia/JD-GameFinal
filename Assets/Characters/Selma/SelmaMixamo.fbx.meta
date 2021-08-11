@@ -10,6 +10,11 @@ ModelImporter:
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
+      name: CabeloSelmaLow_aiStandardHair1SG1
+    second: {instanceID: 0}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
       name: Teste3_Eyelashes
     second: {fileID: 2100000, guid: 88a06828a4844cd4b8d24fb760c2d1ad, type: 2}
   materials:

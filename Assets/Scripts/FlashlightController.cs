@@ -29,13 +29,13 @@ public class FlashlightController : MonoBehaviour
     {
         if (_input.flashlight)
         {
-            spotLight.intensity = 3.1f;
-            glassMaterial.EnableKeyword("_EMISSION");
+            spotLight.intensity = 3000.0f;
+            glassMaterial.SetFloat("_EmissiveExposureWeight", 0f);
         }
         else
         {
             spotLight.intensity = 0f;
-            glassMaterial.DisableKeyword("_EMISSION");
+            glassMaterial.SetFloat("_EmissiveExposureWeight", 1f);
         }
     }
 }

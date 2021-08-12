@@ -14,8 +14,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   version: 1
   m_ProjectSettingFolderPath: HDRPDefaultResources
+<<<<<<< HEAD
   m_WizardPopupAtStart: 1
   m_WizardPopupAlreadyShownOnce: 0
+=======
+  m_WizardPopupAtStart: 0
+  m_WizardPopupAlreadyShownOnce: 1
+>>>>>>> e3ab239656f7180fa098a45c0936ab4ce706f2a9
   m_WizardActiveTab: 0
   m_WizardNeedRestartAfterChangingToDX12: 0
   m_WizardNeedToRunFixAllAgainAfterDomainReload: 0

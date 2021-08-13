@@ -70,6 +70,7 @@ public class Bow : MonoBehaviour
 
     public void ShowCrosshair(Vector3 crosshairPos)
     {
+        print("CROSSHAIR");
         if (!crosshair)
         {
             crosshair = Instantiate(crosshairPrefab);
@@ -114,6 +115,7 @@ public class Bow : MonoBehaviour
         print("fire arrow");
         Vector3 dir = hitpoint - arrowPos.position;
         currArrow = Instantiate(arrowPrefab,arrowPos.position,arrowPos.rotation);
+        //currArrow.AddForce(arrowForce * dir,ForceMode.VelocityChange);
         currArrow.AddForce(arrowForce * dir,ForceMode.VelocityChange);
         currArrow.gameObject.AddComponent<Arrow>();
     }

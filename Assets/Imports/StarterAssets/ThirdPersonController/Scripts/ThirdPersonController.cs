@@ -118,6 +118,7 @@ namespace StarterAssets
 
 		bool lastShootInput = false;
 		bool pullingString = false;
+		public bool testAim = false;
 
 		private void Awake()
 		{
@@ -169,6 +170,9 @@ namespace StarterAssets
 			{
 				_animator.SetBool(_animIDArmedBow, true);
 			}
+
+			if (testAim)
+				_input.aiming = true;
 
 			if (_input.aiming)
 			{
@@ -229,7 +233,7 @@ namespace StarterAssets
 			_animIDArmedBow = Animator.StringToHash("ArmedBow");
 			_animIDAiming = Animator.StringToHash("AimingBow");
 			_animIDShoot = Animator.StringToHash("Shoot");
-			_animIDPullString= Animator.StringToHash("PullString");
+			_animIDPullString = Animator.StringToHash("PullString");
 		}
 
 		private void GroundedCheck()
@@ -346,7 +350,7 @@ namespace StarterAssets
 					_animator.SetBool(_animIDDive, false);
 					_animator.SetBool(_animIDArmedBow, false);
 					_animator.SetBool(_animIDAiming, false);
-					_animator.SetBool(_animIDShoot, false);
+					//_animator.SetBool(_animIDShoot, false);
 					_animator.SetBool(_animIDJump, false);
 					_animator.SetBool(_animIDFreeFall, false);
 				}
@@ -422,8 +426,9 @@ namespace StarterAssets
 			{
 				hitDetected = true;
 				Debug.DrawLine(ray.origin, hit.point, Color.green);
-				if (doSpineRotation)
-					bow.ShowCrosshair(hit.point);
+				//if (doSpineRotation)
+				//	bow.ShowCrosshair(hit.point);
+				bow.ShowCrosshair(hit.point);
 			}
 			else
 			{

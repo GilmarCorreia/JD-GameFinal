@@ -25,14 +25,24 @@ public class Arrow : MonoBehaviour
             transform.rotation = Quaternion.LookRotation(rb.velocity);
     }
 
-    private void OnCollisionEnter(Collision collision)
+    //private void OnCollisionEnter(Collision collision)
+    //{
+    //    if (collision.gameObject.tag != "Player")
+    //    {
+    //        disableRotation = true;
+    //        rb.isKinematic = true;
+    //        bc.isTrigger = true;
+    //    }
+    //}
+
+    private void OnTriggerEnter(Collider other)
     {
-        if(collision.gameObject.tag != "Player")
+        if (other.gameObject.tag != "Player")
         {
             disableRotation = true;
             rb.isKinematic = true;
-            bc.isTrigger = true;
+            rb.velocity = Vector3.zero;
         }
-
     }
+
 }

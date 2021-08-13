@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 #if ENABLE_INPUT_SYSTEM && STARTER_ASSETS_PACKAGES_CHECKED
 using UnityEngine.InputSystem;
+using Cinemachine;
 #endif
 
 /* Note: animations are called via the controller for both the character and capsule using animator null checks
@@ -96,6 +97,9 @@ namespace StarterAssets
 
 		private bool _hasAnimator;
 
+		public CinemachineStateDrivenCamera StateDrivenCam;
+		Animator camAnim;
+
 		private void Awake()
 		{
 			// get a reference to our main camera
@@ -116,6 +120,9 @@ namespace StarterAssets
 			// reset our timeouts on start
 			_jumpTimeoutDelta = JumpTimeout;
 			_fallTimeoutDelta = FallTimeout;
+
+			//Animator das Cameras
+			camAnim = StateDrivenCam.GetComponent<Animator>();
 		}
 
 		private void Update()
@@ -147,6 +154,11 @@ namespace StarterAssets
 			if (_input.aiming)
 			{
 				_animator.SetBool(_animIDAiming, true);
+				camAnim.Play("AimCam");
+			}
+            else
+            {
+				camAnim.Play("PlayerCam");
 			}
 
 			if (_input.shoot)

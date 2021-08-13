@@ -38,8 +38,8 @@ ModelImporter:
       name: fall-land-run-jonas
       takeName: mixamo.com
       internalID: 0
-      firstFrame: 7.8000007
-      lastFrame: 14.4
+      firstFrame: 4.8
+      lastFrame: 24.5
       wrapMode: 0
       orientationOffsetY: 0
       level: 0

@@ -19,6 +19,7 @@ public class Monster : MonoBehaviour
     public BoxCollider monsterArmR;
     public BoxCollider monsterArmL;
     private Rigidbody rbMonster;
+    private Transform target;
 
     Vector3 v3;
 
@@ -37,6 +38,7 @@ public class Monster : MonoBehaviour
         monsterArmL = GetComponent<BoxCollider>();
         rbMonster = GetComponent<Rigidbody>();
 
+
         //torna a vida da personagem em 100% no inicio da fase
         currentHealth = maxHealth;
         monsterHealth.SetMaxHealth(currentHealth);
@@ -51,7 +53,7 @@ public class Monster : MonoBehaviour
     // Update chamado uma vez por frame
     void Update()
     {
-
+        target = GameObject.FindWithTag("Player").transform;
         if (Input.GetKeyDown(KeyCode.V))
             BasicAttack();
         if (Input.GetKeyDown(KeyCode.B))
@@ -92,14 +94,11 @@ public class Monster : MonoBehaviour
     {
         if (attack.gameObject.tag == "Player")
         {
-            Debug.Log(attack.gameObject.name);
-            Vector3 moveDirection = monsterArmR.transform.position - rbMonster.transform.position;
-            //rbMonster.AddForce(moveDirection.normalized * 500f);
-            //healthbar.value -= 20;
-            attack.gameObject.transform.Translate(Vector3.back * Time.deltaTime);        // Move the object upward in world space 1 unit/second.
-            attack.gameObject.transform.Translate(Vector3.up * Time.deltaTime, Space.World);
-            moveDirection = attack.gameObject.transform.position - rbMonster.transform.position;
-            Debug.Log(attack.gameObject.name);
+            Debug.Log(attack.gameObject.transform.position);
+            //Vector3 interpolatedPosition = Vector3.
+                //Lerp(target.position,(rbMonster.position-target.position), 0.05);
+            attack.gameObject.transform.Translate(target.position.x, target.position.y, target.position.z+1);        // Move the object upward in world space 1 unit/second.
+           // attack.gameObject.transform.Translate(Vector3.up * Time.deltaTime, Space.World);
         }
     }
 

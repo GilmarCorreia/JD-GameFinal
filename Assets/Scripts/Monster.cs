@@ -8,13 +8,19 @@ using UnityEngine;
 /// DETERMINA COMO O MONSTRO IRÁ REAGIR A ATAQUES E COMO IRÁ ATACAR
 /// 
 /// DEV: IVAN CORREIA LIMA COQUEIRO
-/// ULTIMA ATUALIZAÇÃO: 11-08-2021
+/// DEV: WILLIAN TERUYA KIMURA
+/// ULTIMA ATUALIZAÇÃO: 12-08-2021
 /// V. 1.0
 /// </summary>
 
 public class Monster : MonoBehaviour
 {
-   Animator monsterAnim;               //declara a MEF do Monstro
+    Animator monsterAnim;               //declara a MEF do Monstro
+    public BoxCollider monsterArmR;
+    public BoxCollider monsterArmL;
+    private Rigidbody rbMonster;
+
+    Vector3 v3;
 
     //determina a vida atual do monstro e a vida máxima que ele pode ter
     public int maxHealth = 150;
@@ -25,8 +31,11 @@ public class Monster : MonoBehaviour
     // Inicio do jogo antes do primeiro update
     void Start()
     {
-       //inicia o componente de animação no script
-       monsterAnim = GetComponent<Animator>();
+        //inicia o componente de animação no script
+        monsterAnim = GetComponent<Animator>();
+        monsterArmR = GetComponent<BoxCollider>();
+        monsterArmL = GetComponent<BoxCollider>();
+        rbMonster = GetComponent<Rigidbody>();
 
         //torna a vida da personagem em 100% no inicio da fase
         currentHealth = maxHealth;
@@ -43,7 +52,7 @@ public class Monster : MonoBehaviour
     void Update()
     {
 
-        if (Input.GetKeyDown(KeyCode.V)) 
+        if (Input.GetKeyDown(KeyCode.V))
             BasicAttack();
         if (Input.GetKeyDown(KeyCode.B))
             PowerAttack();
@@ -54,12 +63,12 @@ public class Monster : MonoBehaviour
             monsterHealth.SetHealth(currentHealth);
             monsterAnim.SetTrigger("isRoaring");
         }
-          
+
 
         //se o boneco morrer ele cai no chão e não levanta mais
-        if (currentHealth <=  30)
+        if (currentHealth <= 30)
         {
-          monsterAnim.SetTrigger("Dead");
+            monsterAnim.SetTrigger("Dead");
         }
 
 
@@ -75,6 +84,23 @@ public class Monster : MonoBehaviour
     public void PowerAttack()
     {
         monsterAnim.SetTrigger("powerAttackUsage");
+    }
+
+    //função que realiza trigger caso collide entre em contato
+
+    void OnTriggerEnter(Collider attack)
+    {
+        if (attack.gameObject.tag == "Player")
+        {
+            Debug.Log(attack.gameObject.name);
+            Vector3 moveDirection = monsterArmR.transform.position - rbMonster.transform.position;
+            //rbMonster.AddForce(moveDirection.normalized * 500f);
+            //healthbar.value -= 20;
+            attack.gameObject.transform.Translate(Vector3.back * Time.deltaTime);        // Move the object upward in world space 1 unit/second.
+            attack.gameObject.transform.Translate(Vector3.up * Time.deltaTime, Space.World);
+            moveDirection = attack.gameObject.transform.position - rbMonster.transform.position;
+            Debug.Log(attack.gameObject.name);
+        }
     }
 
     //define a velocidade do monstro conforme ele anda

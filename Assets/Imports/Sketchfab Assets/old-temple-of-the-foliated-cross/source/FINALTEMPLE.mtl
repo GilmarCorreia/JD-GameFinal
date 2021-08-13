@@ -1,0 +1,105 @@
+newmtl blinn1SG
+illum 4
+Kd 0.00 0.00 0.00
+Ka 0.00 0.00 0.00
+Tf 1.00 1.00 1.00
+map_Kd brick1.png
+Ni 1.00
+Ks 0.00 0.00 0.00
+map_Ks brick1.png
+newmtl blinn8SG
+illum 4
+Kd 0.00 0.00 0.00
+Ka 0.00 0.00 0.00
+Tf 1.00 1.00 1.00
+map_Kd roof1_1024.png
+bump roof1B.png -bm 1
+Ni 1.00
+Ks 0.00 0.00 0.00
+map_Ks roof2048.png
+newmtl blinn9SG
+illum 4
+Kd 0.00 0.00 0.00
+Ka 0.00 0.00 0.00
+Tf 1.00 1.00 1.00
+map_Kd front1dark.png
+bump whitestoneB.png -bm 1
+Ni 1.00
+Ks 0.00 0.00 0.00
+map_Ks front1dark1024.png
+newmtl blinn10SG
+illum 4
+Kd 0.00 0.00 0.00
+Ka 0.00 0.00 0.00
+Tf 1.00 1.00 1.00
+map_Kd stairs1024dark.png
+bump stairsB.png -bm 1
+Ni 1.00
+Ks 0.00 0.00 0.00
+map_Ks stairs2048.png
+newmtl blinn12SG
+illum 4
+Kd 0.00 0.00 0.00
+Ka 0.00 0.00 0.00
+Tf 1.00 1.00 1.00
+map_Kd roofSide1_1024.png
+bump roofSide1B2.png -bm 1
+Ni 1.00
+Ks 0.00 0.00 0.00
+map_Ks roofSide1_1024.png
+newmtl blinn14SG
+illum 4
+Kd 0.00 0.00 0.00
+Ka 0.00 0.00 0.00
+Tf 1.00 1.00 1.00
+map_Kd roofSide3.png
+bump roofSide3B.png -bm 1
+Ni 1.00
+Ks 0.00 0.00 0.00
+map_Ks roofSide3.png
+newmtl blinn15SG
+illum 4
+Kd 0.00 0.00 0.00
+Ka 0.00 0.00 0.00
+Tf 1.00 1.00 1.00
+map_Kd floor4096 copy.png
+bump floor1B2.png -bm 1
+Ni 1.00
+Ks 0.00 0.00 0.00
+map_Ks floor1024.png
+newmtl initialShadingGroup
+illum 4
+Kd 0.50 0.50 0.50
+Ka 0.00 0.00 0.00
+Tf 1.00 1.00 1.00
+Ni 1.00
+newmtl lambert3SG
+illum 4
+Kd 0.00 0.00 0.00
+Ka 0.00 0.00 0.00
+Tf 1.00 1.00 1.00
+map_Kd stone1024dark.png
+bump stone2B.png -bm 1
+Ni 1.00
+Ks 0.00 0.00 0.00
+map_Ks stone1.png
+newmtl pasted__blinn13SG
+illum 4
+Kd 0.00 0.00 0.00
+Ka 0.00 0.00 0.00
+Tf 1.00 1.00 1.00
+map_Kd roofSide4_1024.png
+bump roofSide4B.png -bm 1
+Ni 1.00
+Ks 0.00 0.00 0.00
+map_Ks roofSide4_1024.png
+newmtl pasted__blinn14SG
+illum 4
+Kd 0.00 0.00 0.00
+Ka 0.00 0.00 0.00
+Tf 1.00 1.00 1.00
+map_Kd roofSide3_1024.png
+bump roofSide3B.png -bm 1
+Ni 1.00
+Ks 0.00 0.00 0.00
+map_Ks roofSide3_1024.png

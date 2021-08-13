@@ -40,6 +40,7 @@ public class Bow : MonoBehaviour
     {
         anim = GetComponentInParent<Animator>();
         //bowObj.SetActive(false);
+        DisableArrow();
     }
 
     // Update is called once per frame

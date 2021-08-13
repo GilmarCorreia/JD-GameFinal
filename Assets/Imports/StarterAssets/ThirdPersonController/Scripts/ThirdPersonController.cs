@@ -87,6 +87,7 @@ namespace StarterAssets
 		private int _animIDArmedBow;
 		private int _animIDAiming;
 		private int _animIDShoot;
+		private int _animIDPullString;
 
 		private Animator _animator;
 		private CharacterController _controller;
@@ -97,8 +98,26 @@ namespace StarterAssets
 
 		private bool _hasAnimator;
 
+		public Bow bow;
+
+		[Header("Aimiming Settings")]
 		public CinemachineStateDrivenCamera StateDrivenCam;
 		Animator camAnim;
+
+		[Header("Spine Settings")]
+		public Transform spine;
+		public Vector3 spineOffset = new Vector3(13, 101.7f, 8);
+
+		Ray ray;
+		RaycastHit hit;
+		bool hitDetected = false;
+
+		bool doSpineRotation = false;
+		float delayToRotateSpine = .5f;
+		float rotateSpineTimer = 0f;
+
+		bool lastShootInput = false;
+		bool pullingString = false;
 
 		private void Awake()
 		{
@@ -155,16 +174,36 @@ namespace StarterAssets
 			{
 				_animator.SetBool(_animIDAiming, true);
 				camAnim.Play("AimCam");
+				Aim();
+				_animator.SetBool(_animIDPullString, _input.shoot);
+				LockCameraPosition = true;
+                if (Input.GetButtonUp("Fire1"))
+                {
+					_animator.SetTrigger(_animIDShoot);
+					if (hitDetected)
+					{
+						bow.Fire(hit.point);
+					}
+					else
+					{
+						bow.Fire(ray.GetPoint(300));
+					}
+				}
 			}
             else
             {
 				camAnim.Play("PlayerCam");
+				bow.RemoveCrosshair();
+				bow.ReleaseString();
+				bow.DisableArrow();
+				LockCameraPosition = false;
 			}
 
-			if (_input.shoot)
-			{
-				_animator.SetBool(_animIDShoot, true);
-			}
+			//if (_input.shoot)
+			//{
+			//	//_animator.SetBool(_animIDShoot, true);
+			//}
+
 		}
 
 
@@ -172,6 +211,10 @@ namespace StarterAssets
 		private void LateUpdate()
 		{
 			CameraRotation();
+			if (_input.aiming)
+			{
+				RotateCharacterSpine();
+			}
 		}
 
 		private void AssignAnimationIDs()
@@ -186,6 +229,7 @@ namespace StarterAssets
 			_animIDArmedBow = Animator.StringToHash("ArmedBow");
 			_animIDAiming = Animator.StringToHash("AimingBow");
 			_animIDShoot = Animator.StringToHash("Shoot");
+			_animIDPullString= Animator.StringToHash("PullString");
 		}
 
 		private void GroundedCheck()
@@ -368,6 +412,51 @@ namespace StarterAssets
 			if (lfAngle > 360f) lfAngle -= 360f;
 			return Mathf.Clamp(lfAngle, lfMin, lfMax);
 		}
+
+		public void Aim()
+		{
+			Vector3 camPosition = Camera.main.transform.position;
+			Vector3 dir = Camera.main.transform.forward;
+			ray = new Ray(camPosition, dir);
+			if (Physics.Raycast(ray, out hit, 500f))
+			{
+				hitDetected = true;
+				Debug.DrawLine(ray.origin, hit.point, Color.green);
+				if (doSpineRotation)
+					bow.ShowCrosshair(hit.point);
+			}
+			else
+			{
+				hitDetected = false;
+				bow.RemoveCrosshair();
+			}
+		}
+
+		void RotateCharacterSpine()
+		{
+            //if (_input.aiming)
+            //{
+            //	rotateSpineTimer = delayToRotateSpine;
+            //	doSpineRotation = false;
+            //}
+            //if (rotateSpineTimer > 0)
+            //{
+            //	rotateSpineTimer -= Time.deltaTime;
+            //}
+            //else
+            //{
+            //	doSpineRotation = true;
+            //}
+            //if (doSpineRotation)
+            //{
+            //	spine.LookAt(ray.GetPoint(50));
+            //	spine.Rotate(spineOffset);
+            //}
+            //print(rotateSpineTimer);
+            //print(doSpineRotation);
+            spine.LookAt(ray.GetPoint(50));
+            spine.Rotate(spineOffset);
+        }
 
 		private void OnDrawGizmosSelected()
 		{

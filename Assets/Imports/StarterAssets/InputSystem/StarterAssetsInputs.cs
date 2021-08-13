@@ -23,6 +23,8 @@ namespace StarterAssets
 
 		public bool aiming;
 		public bool shoot;
+		//public bool lastShootState = false;
+		//public bool pullingString;
 
 		[Header("Movement Settings")]
 		public bool analogMovement;
@@ -94,6 +96,7 @@ namespace StarterAssets
 		{
 			ShootInput(value.isPressed);
 		}
+
 
 #else
 		// old input sys if we do decide to have it (most likely wont)...

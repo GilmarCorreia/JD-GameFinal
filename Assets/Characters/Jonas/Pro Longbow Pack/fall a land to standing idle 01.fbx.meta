@@ -1,14 +1,11 @@
 fileFormatVersion: 2
-guid: a584ad4fa7dedb64cbce6c6bde6e1b15
+guid: 2d8ed224753f5984486f905a4d40241c
 ModelImporter:
   serializedVersion: 20200
   internalIDToNameTable:
   - first:
       74: -203655887218126122
-    second: JUMP_START
-  - first:
-      74: -3691189106361993580
-    second: JUMP_LAND
+    second: fall-land-idle-jonas
   externalObjects: {}
   materials:
     materialImportMode: 2
@@ -38,40 +35,11 @@ ModelImporter:
     extraUserProperties: []
     clipAnimations:
     - serializedVersion: 16
-      name: JUMP_START
+      name: fall-land-idle-jonas
       takeName: mixamo.com
       internalID: 0
-      firstFrame: 24
-      lastFrame: 32
-      wrapMode: 0
-      orientationOffsetY: 0
-      level: 0
-      cycleOffset: 0
-      loop: 0
-      hasAdditiveReferencePose: 0
-      loopTime: 0
-      loopBlend: 1
-      loopBlendOrientation: 1
-      loopBlendPositionY: 0
-      loopBlendPositionXZ: 0
-      keepOriginalOrientation: 1
-      keepOriginalPositionY: 1
-      keepOriginalPositionXZ: 1
-      heightFromFeet: 0
-      mirror: 0
-      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
-      curves: []
-      events: []
-      transformMask: []
-      maskType: 3
-      maskSource: {instanceID: 0}
-      additiveReferencePoseFrame: 0
-    - serializedVersion: 16
-      name: JUMP_LAND
-      takeName: mixamo.com
-      internalID: 0
-      firstFrame: 55
-      lastFrame: 68
+      firstFrame: 17.6
+      lastFrame: 18.7
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
@@ -82,11 +50,11 @@ ModelImporter:
       loopBlend: 0
       loopBlendOrientation: 1
       loopBlendPositionY: 1
-      loopBlendPositionXZ: 1
-      keepOriginalOrientation: 1
-      keepOriginalPositionY: 1
-      keepOriginalPositionXZ: 1
-      heightFromFeet: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 0
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 1
       mirror: 0
       bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
       curves: []

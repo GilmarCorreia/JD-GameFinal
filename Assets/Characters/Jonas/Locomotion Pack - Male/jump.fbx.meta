@@ -1,14 +1,14 @@
 fileFormatVersion: 2
-guid: a584ad4fa7dedb64cbce6c6bde6e1b15
+guid: 927da46b0656b4843a4e3faabff22adb
 ModelImporter:
   serializedVersion: 20200
   internalIDToNameTable:
   - first:
       74: -203655887218126122
-    second: JUMP_START
+    second: jump-start-jonas
   - first:
-      74: -3691189106361993580
-    second: JUMP_LAND
+      74: 4061839508520268033
+    second: jump-land-jonas
   externalObjects: {}
   materials:
     materialImportMode: 2
@@ -38,10 +38,10 @@ ModelImporter:
     extraUserProperties: []
     clipAnimations:
     - serializedVersion: 16
-      name: JUMP_START
+      name: jump-start-jonas
       takeName: mixamo.com
       internalID: 0
-      firstFrame: 24
+      firstFrame: 20
       lastFrame: 32
       wrapMode: 0
       orientationOffsetY: 0
@@ -50,13 +50,13 @@ ModelImporter:
       loop: 0
       hasAdditiveReferencePose: 0
       loopTime: 0
-      loopBlend: 1
+      loopBlend: 0
       loopBlendOrientation: 1
       loopBlendPositionY: 0
       loopBlendPositionXZ: 0
       keepOriginalOrientation: 1
       keepOriginalPositionY: 1
-      keepOriginalPositionXZ: 1
+      keepOriginalPositionXZ: 0
       heightFromFeet: 0
       mirror: 0
       bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
@@ -67,11 +67,11 @@ ModelImporter:
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 0
     - serializedVersion: 16
-      name: JUMP_LAND
+      name: jump-land-jonas
       takeName: mixamo.com
       internalID: 0
-      firstFrame: 55
-      lastFrame: 68
+      firstFrame: 30
+      lastFrame: 58
       wrapMode: 0
       orientationOffsetY: 0
       level: 0

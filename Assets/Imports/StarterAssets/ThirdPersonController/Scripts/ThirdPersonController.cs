@@ -116,9 +116,38 @@ namespace StarterAssets
 		float delayToRotateSpine = .5f;
 		float rotateSpineTimer = 0f;
 
-		bool lastShootInput = false;
-		bool pullingString = false;
+		//bool lastShootInput = false;
+		//bool pullingString = false;
 		public bool testAim = false;
+
+		[Header("Aim Camera Settings")]
+		public float cameraYrotation = 0;
+		public float cameraXrotation = 0;
+		Transform center;
+		public CinemachineVirtualCamera VCam;
+
+		[System.Serializable]
+		public class CameraSettings
+		{
+			[Header("Camera Move Settings")]
+			public float rotationSpeed = 5;
+			public float mouseXSense = 5;
+			public float mouseYSense = 5;
+			public float maxClampAngle = 90;
+			public float minClampAngle = -30;
+		}
+		[SerializeField]
+		public CameraSettings camSettings;
+
+		[System.Serializable]
+		public class CameraInputSettings
+		{
+			public string MouseXAxis = "Mouse X";
+			public string MouseYAxis = "Mouse Y";
+			//public string AimingInput = "Fire2";
+		}
+		[SerializeField]
+		public CameraInputSettings camInputSettings;
 
 		private void Awake()
 		{
@@ -143,6 +172,8 @@ namespace StarterAssets
 
 			//Animator das Cameras
 			camAnim = StateDrivenCam.GetComponent<Animator>();
+
+			center = VCam.Follow.transform;
 		}
 
 		private void Update()
@@ -179,8 +210,8 @@ namespace StarterAssets
 				_animator.SetBool(_animIDAiming, true);
 				camAnim.Play("AimCam");
 				Aim();
+				RotateCamera();
 				_animator.SetBool(_animIDPullString, _input.shoot);
-				LockCameraPosition = true;
                 if (Input.GetButtonUp("Fire1"))
                 {
 					_animator.SetTrigger(_animIDShoot);
@@ -200,7 +231,6 @@ namespace StarterAssets
 				bow.RemoveCrosshair();
 				bow.ReleaseString();
 				bow.DisableArrow();
-				LockCameraPosition = false;
 			}
 
 			//if (_input.shoot)
@@ -462,6 +492,19 @@ namespace StarterAssets
             spine.LookAt(ray.GetPoint(50));
             spine.Rotate(spineOffset);
         }
+
+		public void RotateCamera()
+		{
+            //cameraYrotation += Input.GetAxis(camInputSettings.MouseXAxis) * camSettings.mouseXSense;
+            //cameraXrotation -= Input.GetAxis(camInputSettings.MouseYAxis) * camSettings.mouseYSense;
+            cameraYrotation += _input.look.y;
+            cameraXrotation -= _input.look.x;
+            cameraXrotation = Mathf.Clamp(cameraXrotation, camSettings.minClampAngle, camSettings.maxClampAngle);
+			cameraYrotation = Mathf.Repeat(cameraYrotation, 360);
+			Vector3 rotatingAngle = new Vector3(cameraXrotation, cameraYrotation, 0);
+			Quaternion rotation = Quaternion.Slerp(center.transform.localRotation, Quaternion.Euler(rotatingAngle), camSettings.rotationSpeed * Time.deltaTime);
+			center.transform.localRotation = rotation;
+		}
 
 		private void OnDrawGizmosSelected()
 		{

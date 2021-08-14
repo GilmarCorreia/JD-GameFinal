@@ -185,7 +185,6 @@ namespace StarterAssets
 			//Animator das Cameras
 			camAnim = StateDrivenCam.GetComponent<Animator>();
 			center = VCam.Follow.transform;
-
 		}
 
 		private void Update()
@@ -212,8 +211,8 @@ namespace StarterAssets
 				_animator.SetBool(_animIDPickBow, true);
 			}
 		}
-
-		private void ShootingMecanics()
+   
+        private void ShootingMecanics()
         {
 			if (_input.equipBow)
 			{

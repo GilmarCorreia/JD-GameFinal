@@ -71,6 +71,7 @@ namespace StarterAssets
 		private float _rotationVelocity;
 		private float _verticalVelocity;
 		private float _terminalVelocity = 53.0f;
+		bool diving = false;
 
 		// timeout deltatime
 		private float _jumpTimeoutDelta;
@@ -150,6 +151,12 @@ namespace StarterAssets
 		[SerializeField]
 		public CameraInputSettings camInputSettings;
 
+		[Header("Capsule Settings")]
+		public float _capsuleHeight = 3.4f;
+		public Vector3 _capsuleCenter = new Vector3(0, 1.6f, 0);
+		public float _capsuleHeightDown = 2.4f;
+		public Vector3 _capsuleCenterDown = new Vector3(0, 1f, 0);
+
 		private void Awake()
 		{
 			// get a reference to our main camera
@@ -173,14 +180,15 @@ namespace StarterAssets
 
 			//Animator das Cameras
 			camAnim = StateDrivenCam.GetComponent<Animator>();
-
 			center = VCam.Follow.transform;
+
 		}
 
 		private void Update()
 		{
 			_hasAnimator = TryGetComponent(out _animator);
 			
+
 			JumpAndGravity();
 			GroundedCheck();
 			Move();
@@ -308,6 +316,8 @@ namespace StarterAssets
             {
 				_animator.SetBool(_animIDCrouch, true);
 			}
+
+			ReduceHitbox(_input.crouch || diving);
 
             /*if (_hasAnimator)
             {
@@ -454,6 +464,30 @@ namespace StarterAssets
 			if (lfAngle > 360f) lfAngle -= 360f;
 			return Mathf.Clamp(lfAngle, lfMin, lfMax);
 		}
+
+		public void ReduceHitbox(bool reduce)
+        {
+            if (reduce)
+            {
+				_controller.height = _capsuleHeightDown;
+				_controller.center = _capsuleCenterDown;
+            }
+            else
+            {
+				_controller.height = _capsuleHeight;
+				_controller.center = _capsuleCenter;
+			}
+        }
+
+		public void StartDive()
+		{
+			diving = true;
+		}
+
+		public void FinishDive()
+        {
+			diving = false;
+        }
 
 		public void Aim()
 		{

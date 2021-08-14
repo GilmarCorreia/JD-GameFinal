@@ -13,14 +13,13 @@ namespace StarterAssets
 		public bool jump;
 		public bool sprint;
 		public bool dive;
+		public bool crouch;
 		public bool flashlight;
 		private bool flashMode = false;
 
 		public bool pickObject;
-
 		public bool equipBow;
 		private bool equipMode = false;
-
 		public bool aiming;
 		public bool shoot;
 		//public bool lastShootState = false;
@@ -63,6 +62,11 @@ namespace StarterAssets
 		{
 			DiveInput(value.isPressed);
 		}
+
+		public void OnCrouch(InputValue value)
+        {
+			CrouchInput(value.isPressed);
+        }
 
 		public void OnFlashlight(InputValue value)
         {
@@ -126,6 +130,12 @@ namespace StarterAssets
 		public void DiveInput(bool newDiveState)
 		{
 			dive = newDiveState;
+		}
+
+
+		public void CrouchInput(bool newCrouchState)
+		{
+			crouch = newCrouchState;
 		}
 
 		public void FlashlightInput(bool newFlashlightState)

@@ -83,6 +83,7 @@ namespace StarterAssets
 		private int _animIDFreeFall;
 		private int _animIDMotionSpeed;
 		private int _animIDDive;
+		private int _animIDCrouch;
 		private int _animIDPickBow;
 		private int _animIDArmedBow;
 		private int _animIDAiming;
@@ -259,6 +260,7 @@ namespace StarterAssets
 			_animIDFreeFall = Animator.StringToHash("FreeFall");
 			_animIDMotionSpeed = Animator.StringToHash("MotionSpeed");
 			_animIDDive = Animator.StringToHash("Dive");
+			_animIDCrouch = Animator.StringToHash("Crouch");
 			_animIDPickBow = Animator.StringToHash("PickBow");
 			_animIDArmedBow = Animator.StringToHash("ArmedBow");
 			_animIDAiming = Animator.StringToHash("AimingBow");
@@ -300,6 +302,11 @@ namespace StarterAssets
 		{
             if (_input.dive){
 				_animator.SetBool(_animIDDive, true);
+			}
+
+            if (_input.crouch)
+            {
+				_animator.SetBool(_animIDCrouch, true);
 			}
 
             /*if (_hasAnimator)
@@ -378,6 +385,7 @@ namespace StarterAssets
 				if (_hasAnimator)
 				{
 					_animator.SetBool(_animIDDive, false);
+					_animator.SetBool(_animIDCrouch, false);
 					_animator.SetBool(_animIDArmedBow, false);
 					_animator.SetBool(_animIDAiming, false);
 					//_animator.SetBool(_animIDShoot, false);

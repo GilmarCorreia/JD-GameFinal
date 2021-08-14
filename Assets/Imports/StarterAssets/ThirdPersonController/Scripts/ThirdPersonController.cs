@@ -178,6 +178,7 @@ namespace StarterAssets
 			camAnim = StateDrivenCam.GetComponent<Animator>();
 
 			center = VCam.Follow.transform;
+			
 		}
 
 		private void Update()

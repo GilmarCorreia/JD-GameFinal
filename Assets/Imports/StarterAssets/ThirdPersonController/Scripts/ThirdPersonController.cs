@@ -60,6 +60,7 @@ namespace StarterAssets
 		[Tooltip("For locking the camera position on all axis")]
 		public bool LockCameraPosition = false;
 
+		
 		// cinemachine
 		private float _cinemachineTargetYaw;
 		private float _cinemachineTargetPitch;
@@ -72,6 +73,8 @@ namespace StarterAssets
 		private float _verticalVelocity;
 		private float _terminalVelocity = 53.0f;
 		bool diving = false;
+
+		private bool _canPickItem = false;
 
 		// timeout deltatime
 		private float _jumpTimeoutDelta;
@@ -196,9 +199,14 @@ namespace StarterAssets
 			ShootingMecanics();
 		}
 
+		public void UpdatePickItemFlag(bool nearToPlayer)
+		{
+			this._canPickItem = nearToPlayer;
+		}
+
 		private void PickObject()
         {
-            if (_input.pickObject)
+            if (_input.pickObject && this._canPickItem)
             {
 				_animator.SetBool(_animIDPickBow, true);
 			}

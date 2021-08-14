@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -44,6 +45,11 @@ public class Monster : MonoBehaviour
         monsterHealth.SetMaxHealth(currentHealth);
     }
 
+    internal void lookAtPlayer()
+    {
+        throw new NotImplementedException();
+    }
+
     //adiciona a variavel dano ao monstro
     void TakeDamage(int damage)
     {
@@ -53,7 +59,6 @@ public class Monster : MonoBehaviour
     // Update chamado uma vez por frame
     void Update()
     {
-        target = GameObject.FindWithTag("Player").transform;
         if (Input.GetKeyDown(KeyCode.V))
             BasicAttack();
         if (Input.GetKeyDown(KeyCode.B))

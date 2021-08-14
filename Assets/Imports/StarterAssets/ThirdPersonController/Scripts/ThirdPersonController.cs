@@ -190,6 +190,7 @@ namespace StarterAssets
 			Move();
 			PickObject();
 			ShootingMecanics();
+
 		}
 
 		public void UpdatePickItemFlag(bool nearToPlayer)
@@ -204,8 +205,8 @@ namespace StarterAssets
 				_animator.SetBool(_animIDPickBow, true);
 			}
 		}
-
-		private void ShootingMecanics()
+   
+        private void ShootingMecanics()
         {
 			if (_input.equipBow)
 			{

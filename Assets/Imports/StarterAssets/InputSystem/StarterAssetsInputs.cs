@@ -13,16 +13,17 @@ namespace StarterAssets
 		public bool jump;
 		public bool sprint;
 		public bool dive;
+		public bool crouch;
 		public bool flashlight;
 		private bool flashMode = false;
 
 		public bool pickObject;
-
 		public bool equipBow;
 		private bool equipMode = false;
-
 		public bool aiming;
 		public bool shoot;
+		//public bool lastShootState = false;
+		//public bool pullingString;
 
 		[Header("Movement Settings")]
 		public bool analogMovement;
@@ -62,6 +63,11 @@ namespace StarterAssets
 			DiveInput(value.isPressed);
 		}
 
+		public void OnCrouch(InputValue value)
+        {
+			CrouchInput(value.isPressed);
+        }
+
 		public void OnFlashlight(InputValue value)
         {
 			if (value.isPressed)
@@ -95,6 +101,7 @@ namespace StarterAssets
 			ShootInput(value.isPressed);
 		}
 
+
 #else
 		// old input sys if we do decide to have it (most likely wont)...
 #endif
@@ -123,6 +130,12 @@ namespace StarterAssets
 		public void DiveInput(bool newDiveState)
 		{
 			dive = newDiveState;
+		}
+
+
+		public void CrouchInput(bool newCrouchState)
+		{
+			crouch = newCrouchState;
 		}
 
 		public void FlashlightInput(bool newFlashlightState)

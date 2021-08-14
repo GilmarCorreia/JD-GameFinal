@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 #if ENABLE_INPUT_SYSTEM && STARTER_ASSETS_PACKAGES_CHECKED
 using UnityEngine.InputSystem;
+using Cinemachine;
 #endif
 
 /* Note: animations are called via the controller for both the character and capsule using animator null checks
@@ -85,10 +86,12 @@ namespace StarterAssets
 		private int _animIDFreeFall;
 		private int _animIDMotionSpeed;
 		private int _animIDDive;
+		private int _animIDCrouch;
 		private int _animIDPickBow;
 		private int _animIDArmedBow;
 		private int _animIDAiming;
 		private int _animIDShoot;
+		private int _animIDPullString;
 
 		private Animator _animator;
 		private CharacterController _controller;
@@ -98,6 +101,57 @@ namespace StarterAssets
 		private const float _threshold = 0.01f;
 
 		private bool _hasAnimator;
+
+		public Bow bow;
+
+		[Header("Aimiming Settings")]
+		public CinemachineStateDrivenCamera StateDrivenCam;
+		Animator camAnim;
+
+		[Header("Spine Settings")]
+		public Transform spine;
+		public Vector3 spineOffset = new Vector3(13, 101.7f, 8);
+
+		Ray ray;
+		RaycastHit hit;
+		bool hitDetected = false;
+
+		bool doSpineRotation = false;
+		float delayToRotateSpine = .5f;
+		float rotateSpineTimer = 0f;
+
+		//bool lastShootInput = false;
+		//bool pullingString = false;
+		public bool testAim = false;
+
+		[Header("Aim Camera Settings")]
+		public float cameraYrotation = 0;
+		public float cameraXrotation = 0;
+		Transform center;
+		public CinemachineVirtualCamera VCam;
+
+		[System.Serializable]
+		public class CameraSettings
+		{
+			[Header("Camera Move Settings")]
+			public float rotationSpeed = 5;
+			public float mouseXSense = 5;
+			public float mouseYSense = 5;
+			public float maxClampAngle = 90;
+			public float minClampAngle = -30;
+		}
+		[SerializeField]
+		public CameraSettings camSettings;
+
+		[System.Serializable]
+		public class CameraInputSettings
+		{
+			public string MouseXAxis = "Mouse X";
+			public string MouseYAxis = "Mouse Y";
+			//public string AimingInput = "Fire2";
+		}
+		[SerializeField]
+		public CameraInputSettings camInputSettings;
 
 		private void Awake()
 		{
@@ -119,6 +173,11 @@ namespace StarterAssets
 			// reset our timeouts on start
 			_jumpTimeoutDelta = JumpTimeout;
 			_fallTimeoutDelta = FallTimeout;
+
+			//Animator das Cameras
+			camAnim = StateDrivenCam.GetComponent<Animator>();
+
+			center = VCam.Follow.transform;
 		}
 
 		private void Update()
@@ -152,15 +211,42 @@ namespace StarterAssets
 				_animator.SetBool(_animIDArmedBow, true);
 			}
 
+			if (testAim)
+				_input.aiming = true;
+
 			if (_input.aiming)
 			{
 				_animator.SetBool(_animIDAiming, true);
+				camAnim.Play("AimCam");
+				Aim();
+				RotateCamera();
+				_animator.SetBool(_animIDPullString, _input.shoot);
+                if (Input.GetButtonUp("Fire1"))
+                {
+					_animator.SetTrigger(_animIDShoot);
+					if (hitDetected)
+					{
+						bow.Fire(hit.point);
+					}
+					else
+					{
+						bow.Fire(ray.GetPoint(300));
+					}
+				}
+			}
+            else
+            {
+				camAnim.Play("PlayerCam");
+				bow.RemoveCrosshair();
+				bow.ReleaseString();
+				bow.DisableArrow();
 			}
 
-			if (_input.shoot)
-			{
-				_animator.SetBool(_animIDShoot, true);
-			}
+			//if (_input.shoot)
+			//{
+			//	//_animator.SetBool(_animIDShoot, true);
+			//}
+
 		}
 
 
@@ -168,6 +254,10 @@ namespace StarterAssets
 		private void LateUpdate()
 		{
 			CameraRotation();
+			if (_input.aiming)
+			{
+				RotateCharacterSpine();
+			}
 		}
 
 		private void AssignAnimationIDs()
@@ -178,10 +268,12 @@ namespace StarterAssets
 			_animIDFreeFall = Animator.StringToHash("FreeFall");
 			_animIDMotionSpeed = Animator.StringToHash("MotionSpeed");
 			_animIDDive = Animator.StringToHash("Dive");
+			_animIDCrouch = Animator.StringToHash("Crouch");
 			_animIDPickBow = Animator.StringToHash("PickBow");
 			_animIDArmedBow = Animator.StringToHash("ArmedBow");
 			_animIDAiming = Animator.StringToHash("AimingBow");
 			_animIDShoot = Animator.StringToHash("Shoot");
+			_animIDPullString = Animator.StringToHash("PullString");
 		}
 
 		private void GroundedCheck()
@@ -218,6 +310,11 @@ namespace StarterAssets
 		{
             if (_input.dive){
 				_animator.SetBool(_animIDDive, true);
+			}
+
+            if (_input.crouch)
+            {
+				_animator.SetBool(_animIDCrouch, true);
 			}
 
             /*if (_hasAnimator)
@@ -296,9 +393,10 @@ namespace StarterAssets
 				if (_hasAnimator)
 				{
 					_animator.SetBool(_animIDDive, false);
+					_animator.SetBool(_animIDCrouch, false);
 					_animator.SetBool(_animIDArmedBow, false);
 					_animator.SetBool(_animIDAiming, false);
-					_animator.SetBool(_animIDShoot, false);
+					//_animator.SetBool(_animIDShoot, false);
 					_animator.SetBool(_animIDJump, false);
 					_animator.SetBool(_animIDFreeFall, false);
 				}
@@ -363,6 +461,65 @@ namespace StarterAssets
 			if (lfAngle < -360f) lfAngle += 360f;
 			if (lfAngle > 360f) lfAngle -= 360f;
 			return Mathf.Clamp(lfAngle, lfMin, lfMax);
+		}
+
+		public void Aim()
+		{
+			Vector3 camPosition = Camera.main.transform.position;
+			Vector3 dir = Camera.main.transform.forward;
+			ray = new Ray(camPosition, dir);
+			if (Physics.Raycast(ray, out hit, 500f))
+			{
+				hitDetected = true;
+				Debug.DrawLine(ray.origin, hit.point, Color.green);
+				//if (doSpineRotation)
+				//	bow.ShowCrosshair(hit.point);
+				bow.ShowCrosshair(hit.point);
+			}
+			else
+			{
+				hitDetected = false;
+				bow.RemoveCrosshair();
+			}
+		}
+
+		void RotateCharacterSpine()
+		{
+            //if (_input.aiming)
+            //{
+            //	rotateSpineTimer = delayToRotateSpine;
+            //	doSpineRotation = false;
+            //}
+            //if (rotateSpineTimer > 0)
+            //{
+            //	rotateSpineTimer -= Time.deltaTime;
+            //}
+            //else
+            //{
+            //	doSpineRotation = true;
+            //}
+            //if (doSpineRotation)
+            //{
+            //	spine.LookAt(ray.GetPoint(50));
+            //	spine.Rotate(spineOffset);
+            //}
+            //print(rotateSpineTimer);
+            //print(doSpineRotation);
+            spine.LookAt(ray.GetPoint(50));
+            spine.Rotate(spineOffset);
+        }
+
+		public void RotateCamera()
+		{
+            //cameraYrotation += Input.GetAxis(camInputSettings.MouseXAxis) * camSettings.mouseXSense;
+            //cameraXrotation -= Input.GetAxis(camInputSettings.MouseYAxis) * camSettings.mouseYSense;
+            cameraYrotation += _input.look.y;
+            cameraXrotation -= _input.look.x;
+            cameraXrotation = Mathf.Clamp(cameraXrotation, camSettings.minClampAngle, camSettings.maxClampAngle);
+			cameraYrotation = Mathf.Repeat(cameraYrotation, 360);
+			Vector3 rotatingAngle = new Vector3(cameraXrotation, cameraYrotation, 0);
+			Quaternion rotation = Quaternion.Slerp(center.transform.localRotation, Quaternion.Euler(rotatingAngle), camSettings.rotationSpeed * Time.deltaTime);
+			center.transform.localRotation = rotation;
 		}
 
 		private void OnDrawGizmosSelected()

@@ -102,6 +102,7 @@ namespace StarterAssets
 		private const float _threshold = 0.01f;
 
 		private bool _hasAnimator;
+		public bool hasShootingMechanics = false;
 
 		public Bow bow;
 
@@ -190,13 +191,13 @@ namespace StarterAssets
 		private void Update()
 		{
 			_hasAnimator = TryGetComponent(out _animator);
-			
 
 			JumpAndGravity();
 			GroundedCheck();
 			Move();
 			PickObject();
-			ShootingMecanics();
+			if(hasShootingMechanics)
+				ShootingMecanics();
 		}
 
 		public void UpdatePickItemFlag(bool nearToPlayer)
@@ -222,7 +223,7 @@ namespace StarterAssets
 			if (testAim)
 				_input.aiming = true;
 
-			if (_input.aiming)
+			if (_input.aiming && _input.equipBow)
 			{
 				_animator.SetBool(_animIDAiming, true);
 				camAnim.Play("AimCam");
@@ -262,10 +263,13 @@ namespace StarterAssets
 		private void LateUpdate()
 		{
 			CameraRotation();
-			if (_input.aiming)
-			{
-				RotateCharacterSpine();
-			}
+            if (hasShootingMechanics)
+            {
+				if (_input.aiming && _input.equipBow)
+				{
+					RotateCharacterSpine();
+				}
+            }
 		}
 
 		private void AssignAnimationIDs()

@@ -12,6 +12,7 @@ namespace DevionGames.InventorySystem
         public void OnCameInRange(GameObject player)
         {
             player.SendMessage("UpdatePickItemFlag", true);
+            player.SendMessage("UpdateNearGameObject", gameObject);
             Debug.Log("Came in range event");
         }
         

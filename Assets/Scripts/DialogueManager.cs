@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.InputSystem;
+
 
 /// <summary>
 /// SISTEMA DE CAIXA DE DIÁLOGO
@@ -22,6 +24,11 @@ public class DialogueManager : MonoBehaviour
 
     private Queue<string> sentences;                //cria uma qeue (funcionará como string[] array)
 
+    public Animator animator;
+    private Animator npcAnimator;
+
+    public PlayerInput playerInput;
+    public GameObject player;
 
     //método de inicio da rotina
     void Start()
@@ -29,11 +36,33 @@ public class DialogueManager : MonoBehaviour
         sentences = new Queue<string>();
     }
 
-    //inicia o dialogo
-    public void StartDialogue(Dialogue dialogue)
+
+    private void Update()
     {
-        Debug.Log("Starting Conversation with " + dialogue.name); //fala o nome do cidadão
-        nameText.text = dialogue.name;
+        if (animator.GetBool("IsOpen"))
+        {
+            Cursor.visible = true;
+        }
+    }
+
+    //inicia o dialogo
+    public void StartDialogue(Dialogue dialogue, Animator npcAnimator)
+    {
+
+        this.npcAnimator = npcAnimator;
+        //Debug.Log("Starting Conversation with " + dialogue.name); //fala o nome do cidadão
+        animator.SetBool("IsOpen", true);
+
+        playerInput.actions.Disable();
+
+        Cursor.visible = true;
+        Cursor.lockState = CursorLockMode.None;
+
+        npcAnimator.SetBool("HasEnter", true);
+
+        nameText.text = dialogue.NpcName;
+
+        Debug.Log(dialogue.NpcName);
 
         sentences.Clear();
 
@@ -55,13 +84,30 @@ public class DialogueManager : MonoBehaviour
             return;
         }
         string sentence = sentences.Dequeue();      // da dequeue nos dados guardados
-         // Debug.Log(sentence);                        // mostra a proxima fala
-        dialogueText.text = sentence;
+                                                    // Debug.Log(sentence);                        // mostra a proxima fala
+
+        StopAllCoroutines();
+        StartCoroutine(TypeSentence(sentence));
     }
 
+    IEnumerator TypeSentence(string sentence)
+    {
+        dialogueText.text = "";
+        foreach(char letter in sentence.ToCharArray())
+        {
+            dialogueText.text += letter;
+            yield return null;
+        }
+    }
     //info de fim de dialogo
     void EndDialogue()
     {
-        Debug.Log("End of dialogue.");
+        animator.SetBool("IsOpen", false);
+        npcAnimator.SetBool("HasEnter", false);
+        Cursor.lockState = CursorLockMode.Locked;
+        playerInput.actions.Enable();
+        Cursor.visible = false;
+        
+        //Debug.Log("End of dialogue.");
     }
 }

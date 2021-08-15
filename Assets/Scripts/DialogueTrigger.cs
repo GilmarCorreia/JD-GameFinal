@@ -17,9 +17,12 @@ public class DialogueTrigger : MonoBehaviour
 
     public Dialogue dialogue;
 
+    public Animator NpcAnimator;
+
+    
     public void TriggerDialogue()
     {
-        FindObjectOfType<DialogueManager>().StartDialogue(dialogue);
+        FindObjectOfType<DialogueManager>().StartDialogue(dialogue, NpcAnimator);
     }
 
     public void OnTriggerEnter(Collider other)

@@ -14,6 +14,7 @@ IVAN CORREIA LIMA COQUEIRO          RA:11026416 \
 LUCAS BARBOZA MOREIRA PINHEIRO      RA:11017015\
 VITOR LIMA GUEDES DE OLIVEIRA       RA:21055513\
 WILLIAM TERUYA KIMURA               RA: 11075614
+LUCAS SILVA AMORIM                  RA: 11201720968
 
 ============================================================================
 

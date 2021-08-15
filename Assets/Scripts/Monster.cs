@@ -6,11 +6,11 @@ using UnityEngine;
 /// <summary>
 /// MONSTER BEHAVIOUR
 /// 
-/// DETERMINA COMO O MONSTRO IRÁ REAGIR A ATAQUES E COMO IRÁ ATACAR
+/// DETERMINA COMO O MONSTRO IRï¿½ REAGIR A ATAQUES E COMO IRï¿½ ATACAR
 /// 
 /// DEV: IVAN CORREIA LIMA COQUEIRO
 /// DEV: WILLIAN TERUYA KIMURA
-/// ULTIMA ATUALIZAÇÃO: 12-08-2021
+/// ULTIMA ATUALIZAï¿½ï¿½O: 12-08-2021
 /// V. 1.0
 /// </summary>
 
@@ -21,10 +21,18 @@ public class Monster : MonoBehaviour
     public BoxCollider monsterArmL;
     private Rigidbody rbMonster;
     private Transform target;
+    public AudioClip audioStep;
+	public AudioClip audioRoar;
+	public AudioClip audioBite;
+    public AudioClip audioAtq;
+    public AudioClip audioDie;
+
+    AudioSource audio;
+    AudioSource audio2;
 
     Vector3 v3;
 
-    //determina a vida atual do monstro e a vida máxima que ele pode ter
+    //determina a vida atual do monstro e a vida mï¿½xima que ele pode ter
     public int maxHealth = 150;
     public int currentHealth;
 
@@ -33,11 +41,14 @@ public class Monster : MonoBehaviour
     // Inicio do jogo antes do primeiro update
     void Start()
     {
-        //inicia o componente de animação no script
+        //inicia o componente de animaï¿½ï¿½o no script
         monsterAnim = GetComponent<Animator>();
         monsterArmR = GetComponent<BoxCollider>();
         monsterArmL = GetComponent<BoxCollider>();
         rbMonster = GetComponent<Rigidbody>();
+        //allAudioSources = FindObjectsOfType(AudioSource) as AudioSource[];
+        //audio = allAudioSources[0];
+        //audio2 = allAudioSources[1];
 
 
         //torna a vida da personagem em 100% no inicio da fase
@@ -63,7 +74,7 @@ public class Monster : MonoBehaviour
             BasicAttack();
         if (Input.GetKeyDown(KeyCode.B))
             PowerAttack();
-        //se a barra de espaço for pressionada, o monstro sofrerá dano
+        //se a barra de espaï¿½o for pressionada, o monstro sofrerï¿½ dano
         if (Input.GetKeyDown(KeyCode.Space))
         {
             TakeDamage(20);
@@ -72,7 +83,7 @@ public class Monster : MonoBehaviour
         }
 
 
-        //se o boneco morrer ele cai no chão e não levanta mais
+        //se o boneco morrer ele cai no chï¿½o e nï¿½o levanta mais
         if (currentHealth <= 30)
         {
             monsterAnim.SetTrigger("Dead");
@@ -81,19 +92,19 @@ public class Monster : MonoBehaviour
 
     }
 
-    //função que aciona o ataque simples
+    //funï¿½ï¿½o que aciona o ataque simples
     public void BasicAttack()
     {
         monsterAnim.SetTrigger("basicAttackUsage");
     }
 
-    //função que aciona o ataque forte
+    //funï¿½ï¿½o que aciona o ataque forte
     public void PowerAttack()
     {
         monsterAnim.SetTrigger("powerAttackUsage");
     }
 
-    //função que realiza trigger caso collide entre em contato
+    //funï¿½ï¿½o que realiza trigger caso collide entre em contato
 
     void OnTriggerEnter(Collider attack)
     {
@@ -110,11 +121,51 @@ public class Monster : MonoBehaviour
     //define a velocidade do monstro conforme ele anda
     public void MonsterWalk(float blend)
     {
-        //aqui será definida a seguinte lógica;
-        //1. se o player estiver entre 1m  a 2m de distancia (raycasting) o monstro corre e dá dano ao player
+        //aqui serï¿½ definida a seguinte lï¿½gica;
+        //1. se o player estiver entre 1m  a 2m de distancia (raycasting) o monstro corre e dï¿½ dano ao player
         
-        //2. se o player estiver entre 0.5  a 1m de distancia (raycasting) o monstro anda até ele 
+        //2. se o player estiver entre 0.5  a 1m de distancia (raycasting) o monstro anda atï¿½ ele 
 
         //3. se o player estiver grudado nele (0 a 0.5m) o monstro executa ou um powerAttack ou um basicAttack, definido pela vida do monstro
     }
+    	
+	void AudioStep(){
+		
+		GetComponent<AudioSource>().loop = false;
+		GetComponent<AudioSource>().clip = audioStep;
+		GetComponent<AudioSource>().Play();
+		
+	}
+
+    void AudioRoar(){
+		
+		GetComponent<AudioSource>().loop = false;
+		GetComponent<AudioSource>().clip = audioRoar;
+		GetComponent<AudioSource>().Play();
+		
+	}
+	
+    void AudioBite(){
+		
+		GetComponent<AudioSource>().loop = false;
+		GetComponent<AudioSource>().clip = audioBite;
+		GetComponent<AudioSource>().Play();
+		
+	}
+	
+    void AudioAtq(){
+		
+		GetComponent<AudioSource>().loop = false;
+		GetComponent<AudioSource>().clip = audioAtq;
+		GetComponent<AudioSource>().Play();
+		
+	}
+    	
+    void AudioDie(){
+		
+		GetComponent<AudioSource>().loop = false;
+		GetComponent<AudioSource>().clip = audioDie;
+		GetComponent<AudioSource>().Play();
+		
+	}
 }

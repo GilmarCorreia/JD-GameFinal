@@ -45,18 +45,6 @@ namespace DevionGames.UIWidgets
                 m_IconParent = icon.GetComponentInParent<LayoutElement>().gameObject;
 
         }
-        
-        public override string[] Callbacks
-        {
-            get
-            {
-                List<string> callbacks = new List<string>(base.Callbacks);
-                callbacks.Add("onYesClick");
-                callbacks.Add("OnNoClick");
-                return callbacks.ToArray();
-            }
-        }
-
 
         public virtual void Show(NotificationOptions settings, UnityAction<int> result, params string[] buttons)
         {

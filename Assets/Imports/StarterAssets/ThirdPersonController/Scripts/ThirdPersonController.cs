@@ -72,6 +72,7 @@ namespace StarterAssets
 		private float _rotationVelocity;
 		private float _verticalVelocity;
 		private float _terminalVelocity = 53.0f;
+		bool diving = false;
 
 		private bool _canPickItem = false;
 
@@ -101,6 +102,7 @@ namespace StarterAssets
 		private const float _threshold = 0.01f;
 
 		private bool _hasAnimator;
+		public bool hasShootingMechanics = false;
 
 		public Bow bow;
 
@@ -123,6 +125,7 @@ namespace StarterAssets
 		//bool lastShootInput = false;
 		//bool pullingString = false;
 		public bool testAim = false;
+		public bool pickingObject = false;
 
 		[Header("Aim Camera Settings")]
 		public float cameraYrotation = 0;
@@ -153,6 +156,12 @@ namespace StarterAssets
 		[SerializeField]
 		public CameraInputSettings camInputSettings;
 
+		[Header("Capsule Settings")]
+		public float _capsuleHeight = 3.4f;
+		public Vector3 _capsuleCenter = new Vector3(0, 1.6f, 0);
+		public float _capsuleHeightDown = 2.4f;
+		public Vector3 _capsuleCenterDown = new Vector3(0, 1f, 0);
+
 		private void Awake()
 		{
 			// get a reference to our main camera
@@ -176,19 +185,19 @@ namespace StarterAssets
 
 			//Animator das Cameras
 			camAnim = StateDrivenCam.GetComponent<Animator>();
-
 			center = VCam.Follow.transform;
 		}
 
 		private void Update()
 		{
 			_hasAnimator = TryGetComponent(out _animator);
-			
+
 			JumpAndGravity();
 			GroundedCheck();
 			Move();
 			PickObject();
-			ShootingMecanics();
+			if(hasShootingMechanics)
+				ShootingMecanics();
 		}
 
 		public void UpdatePickItemFlag(bool nearToPlayer)
@@ -198,13 +207,19 @@ namespace StarterAssets
 
 		private void PickObject()
         {
-            if (_input.pickObject && this._canPickItem)
-            {
+			if (_input.pickObject && this._canPickItem)
+			{
 				_animator.SetBool(_animIDPickBow, true);
+				pickingObject = true;
 			}
 		}
 
-		private void ShootingMecanics()
+		public void FinishPickingItem()
+        {
+			pickingObject = false;
+		}
+   
+        private void ShootingMecanics()
         {
 			if (_input.equipBow)
 			{
@@ -214,7 +229,7 @@ namespace StarterAssets
 			if (testAim)
 				_input.aiming = true;
 
-			if (_input.aiming)
+			if (_input.aiming && _input.equipBow)
 			{
 				_animator.SetBool(_animIDAiming, true);
 				camAnim.Play("AimCam");
@@ -254,10 +269,13 @@ namespace StarterAssets
 		private void LateUpdate()
 		{
 			CameraRotation();
-			if (_input.aiming)
-			{
-				RotateCharacterSpine();
-			}
+            if (hasShootingMechanics)
+            {
+				if (_input.aiming && _input.equipBow)
+				{
+					RotateCharacterSpine();
+				}
+            }
 		}
 
 		private void AssignAnimationIDs()
@@ -317,6 +335,8 @@ namespace StarterAssets
 				_animator.SetBool(_animIDCrouch, true);
 			}
 
+			ReduceHitbox(_input.crouch || diving);
+
             /*if (_hasAnimator)
             {
 				
@@ -329,7 +349,7 @@ namespace StarterAssets
 
 			// note: Vector2's == operator uses approximation so is not floating point error prone, and is cheaper than magnitude
 			// if there is no input, set the target speed to 0
-			if (_input.move == Vector2.zero) targetSpeed = 0.0f;
+			if (_input.move == Vector2.zero || pickingObject) targetSpeed = 0.0f;
 
 			// a reference to the players current horizontal velocity
 			float currentHorizontalSpeed = new Vector3(_controller.velocity.x, 0.0f, _controller.velocity.z).magnitude;
@@ -462,6 +482,30 @@ namespace StarterAssets
 			if (lfAngle > 360f) lfAngle -= 360f;
 			return Mathf.Clamp(lfAngle, lfMin, lfMax);
 		}
+
+		public void ReduceHitbox(bool reduce)
+        {
+            if (reduce)
+            {
+				_controller.height = _capsuleHeightDown;
+				_controller.center = _capsuleCenterDown;
+            }
+            else
+            {
+				_controller.height = _capsuleHeight;
+				_controller.center = _capsuleCenter;
+			}
+        }
+
+		public void StartDive()
+		{
+			diving = true;
+		}
+
+		public void FinishDive()
+        {
+			diving = false;
+        }
 
 		public void Aim()
 		{

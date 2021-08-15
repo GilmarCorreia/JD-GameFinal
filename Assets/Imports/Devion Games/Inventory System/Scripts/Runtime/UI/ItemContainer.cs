@@ -1477,12 +1477,13 @@ namespace DevionGames.InventorySystem
             OnTryUseItem += (Item item, Slot slot) => {
                 ItemEventData eventData = new ItemEventData(item);
                 eventData.slot = slot;
-                Debug.Log("Tentando usar um item, incluir aqui o código para usar o item");
+                Debug.Log("Tentando usar um item...");
                 Execute("OnTryUseItem", eventData);
             };
             OnUseItem += (Item item, Slot slot) => {
                 ItemEventData eventData = new ItemEventData(item);
                 eventData.slot = slot;
+                Debug.Log("Using item...");
                 Execute("OnUseItem", eventData);
             };
 

@@ -16,20 +16,28 @@ using UnityEngine;
 
 public class Monster : MonoBehaviour
 {
+ 
     Animator monsterAnim;               //declara a MEF do Monstro
     public BoxCollider monsterArmR;
     public BoxCollider monsterArmL;
     private Rigidbody rbMonster;
-    private Transform target;
-
+    //  private Transform target;
+    private Transform pivotTransform;
+    public GameObject playerTarget;
     Vector3 v3;
-
+    //public Vector3 target;
+  //  public Vector3 monsterPos;
+    public Transform positions;
+    public float speed;
+    public float dist;
     //determina a vida atual do monstro e a vida máxima que ele pode ter
     public int maxHealth = 150;
     public int currentHealth;
-
+    public bool isInvulnerable = false;
     public HealthbarScript monsterHealth;
-
+    public bool isAlive = true;
+    public bool isAttacking = false;
+    public GameObject HealthBarViewer;
     // Inicio do jogo antes do primeiro update
     void Start()
     {
@@ -39,45 +47,56 @@ public class Monster : MonoBehaviour
         monsterArmL = GetComponent<BoxCollider>();
         rbMonster = GetComponent<Rigidbody>();
 
-
         //torna a vida da personagem em 100% no inicio da fase
         currentHealth = maxHealth;
         monsterHealth.SetMaxHealth(currentHealth);
     }
 
-    internal void lookAtPlayer()
-    {
-        throw new NotImplementedException();
-    }
 
     //adiciona a variavel dano ao monstro
     void TakeDamage(int damage)
     {
+        if(isInvulnerable == true)
+            return;
+
         currentHealth -= damage;
+        monsterHealth.SetHealth(currentHealth);
+
+        if (currentHealth == 70 || currentHealth == 40)
+            monsterAnim.SetTrigger("isRoaring");
+
+        if(currentHealth <= 30)
+        {
+            monsterAnim.SetTrigger("Dead");
+            isAlive = false;
+            speed = 0;
+            HealthBarViewer.SetActive(false);
+        }
     }
 
     // Update chamado uma vez por frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.V))
-            BasicAttack();
-        if (Input.GetKeyDown(KeyCode.B))
-            PowerAttack();
-        //se a barra de espaço for pressionada, o monstro sofrerá dano
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            TakeDamage(20);
-            monsterHealth.SetHealth(currentHealth);
-            monsterAnim.SetTrigger("isRoaring");
-        }
+        speed = 2.5f;
+        HealthBarViewer.SetActive(true);
+             if (isAlive == false)
+             {
+                return;
+             }
 
+        isInvulnerable = false;
+        //funções de debug
+        if (Input.GetKeyDown(KeyCode.K))
+            TakeDamage(10);
 
-        //se o boneco morrer ele cai no chão e não levanta mais
-        if (currentHealth <= 30)
-        {
-            monsterAnim.SetTrigger("Dead");
-        }
+        
+        pivotTransform = playerTarget.transform;
+        RunTowards();
 
+        var newRotation = Quaternion.LookRotation(playerTarget.transform.position - transform.position, Vector3.forward);
+            newRotation.z = 0.0f;
+            newRotation.x = 0.0f;
+            transform.rotation = Quaternion.Slerp(transform.rotation, newRotation, Time.deltaTime * 8);
 
     }
 
@@ -86,35 +105,52 @@ public class Monster : MonoBehaviour
     {
         monsterAnim.SetTrigger("basicAttackUsage");
     }
-
-    //função que aciona o ataque forte
-    public void PowerAttack()
+    
+    //função que faz o monstro correr atrás do player
+    public void RunTowards()
     {
-        monsterAnim.SetTrigger("powerAttackUsage");
+        Vector3 target = new Vector3(playerTarget.transform.position.x, playerTarget.transform.position.y, playerTarget.transform.position.z);
+        Vector3 monsterPos = new Vector3(rbMonster.position.x, 0, rbMonster.position.z);
+
+
+        dist = Vector3.Distance(target, monsterPos);
+        Debug.Log(dist);
+
+        if (dist >= 50)
+        {
+            monsterAnim.SetTrigger("idle");
+            currentHealth = maxHealth;
+            monsterHealth.SetMaxHealth(currentHealth);
+            HealthBarViewer.SetActive(false);
+        }
+        else if (dist < 4.0f)
+        {
+            BasicAttack();
+        }
+        else
+        { 
+            monsterAnim.SetTrigger("Walk");
+            transform.position = Vector3.MoveTowards(monsterPos, target, speed * Time.fixedDeltaTime);
+        }
+
     }
 
     //função que realiza trigger caso collide entre em contato
-
     void OnTriggerEnter(Collider attack)
     {
+        if (isAlive == false)
+        {
+            return;
+        }
+
         if (attack.gameObject.tag == "Player")
         {
             Debug.Log(attack.gameObject.transform.position);
-            //Vector3 interpolatedPosition = Vector3.
-                //Lerp(target.position,(rbMonster.position-target.position), 0.05);
-            attack.gameObject.transform.Translate(target.position.x, target.position.y, target.position.z+1);        // Move the object upward in world space 1 unit/second.
-           // attack.gameObject.transform.Translate(Vector3.up * Time.deltaTime, Space.World);
+            attack.gameObject.transform.Translate(pivotTransform.position.x, pivotTransform.position.y, pivotTransform.position.z);        // Move the object upward in world space 1 unit/second.
+           // attack.gameObject.transform.Translate(Vector3.back * Time.deltaTime, Space.World);
         }
-    }
+    
+    }   
 
-    //define a velocidade do monstro conforme ele anda
-    public void MonsterWalk(float blend)
-    {
-        //aqui será definida a seguinte lógica;
-        //1. se o player estiver entre 1m  a 2m de distancia (raycasting) o monstro corre e dá dano ao player
-        
-        //2. se o player estiver entre 0.5  a 1m de distancia (raycasting) o monstro anda até ele 
-
-        //3. se o player estiver grudado nele (0 a 0.5m) o monstro executa ou um powerAttack ou um basicAttack, definido pela vida do monstro
-    }
+   
 }

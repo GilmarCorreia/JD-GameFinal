@@ -2,3 +2,4 @@
 Assets/Characters/Selma/SelmaMixamo.fbx filter=lfs diff=lfs merge=lfs -text
 Assets/Characters/Miners/0_4k_LOD0.Fbx filter=lfs diff=lfs merge=lfs -text
 Assets/Characters/Miners/Ch17_nonPBR.fbx filter=lfs diff=lfs merge=lfs -text
+Assets/Characters/Alex/remy.fbx filter=lfs diff=lfs merge=lfs -text

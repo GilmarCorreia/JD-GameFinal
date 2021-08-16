@@ -49,7 +49,7 @@ public class DialogueManager : MonoBehaviour
     public void StartDialogue(Dialogue dialogue, Animator npcAnimator)
     {
 
-        this.npcAnimator = npcAnimator;
+        
         //Debug.Log("Starting Conversation with " + dialogue.name); //fala o nome do cidadão
         animator.SetBool("IsOpen", true);
 
@@ -58,11 +58,13 @@ public class DialogueManager : MonoBehaviour
         Cursor.visible = true;
         Cursor.lockState = CursorLockMode.None;
 
-        npcAnimator.SetBool("HasEnter", true);
+        if (npcAnimator != null)
+        {
+            this.npcAnimator = npcAnimator;
+            npcAnimator.SetBool("HasEnter", true);
+        }
 
         nameText.text = dialogue.NpcName;
-
-        Debug.Log(dialogue.NpcName);
 
         sentences.Clear();
 
@@ -103,7 +105,12 @@ public class DialogueManager : MonoBehaviour
     void EndDialogue()
     {
         animator.SetBool("IsOpen", false);
-        npcAnimator.SetBool("HasEnter", false);
+
+        if (this.npcAnimator != null)
+        {
+            npcAnimator.SetBool("HasEnter", false);
+        }
+
         Cursor.lockState = CursorLockMode.Locked;
         playerInput.actions.Enable();
         Cursor.visible = false;

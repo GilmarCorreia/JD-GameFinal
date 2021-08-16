@@ -252,6 +252,7 @@ namespace StarterAssets
 
 		public void FinishPickingItem()
         {
+			print("Acabou de pegar");
 			pickingObject = false;
 		}
    
@@ -362,11 +363,11 @@ namespace StarterAssets
 
 		private void Move()
 		{
-			if (pickingObject == true)
-			{
-				return;
-			}
-			
+            if (pickingObject == true)
+            {
+                return;
+            }
+
             if (_input.dive){
 				_animator.SetBool(_animIDDive, true);
 			}

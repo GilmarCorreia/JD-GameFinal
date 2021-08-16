@@ -18,7 +18,7 @@ using UnityEngine;
 //Cria variaveis para o dialogo, sendo essas o nome e as falas
 public class Dialogue
 {
-    public string name;
+    public string NpcName;
 
     [TextArea(3,10)] 
     public string[] sentences;

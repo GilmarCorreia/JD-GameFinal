@@ -72,7 +72,7 @@ ModelImporter:
       takeName: rig|attack
       internalID: 0
       firstFrame: 0
-      lastFrame: 199
+      lastFrame: 38
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
@@ -108,7 +108,7 @@ ModelImporter:
       takeName: rig|Idle
       internalID: 0
       firstFrame: 0
-      lastFrame: 239
+      lastFrame: 175
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
@@ -166,7 +166,7 @@ ModelImporter:
       takeName: rig|Roar
       internalID: 0
       firstFrame: 0
-      lastFrame: 199
+      lastFrame: 92
       wrapMode: 0
       orientationOffsetY: 0
       level: 0

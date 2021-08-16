@@ -29,6 +29,11 @@ namespace DevionGames.UIWidgets
         /// The button prefab reference
         /// </summary>
         public Button button;
+        
+        /// <summary>
+        /// The button prefab reference
+        /// </summary>
+        public Button secondaryButton;
 
         protected List<Button> buttonCache = new List<Button>();
         protected GameObject m_IconParent;
@@ -113,6 +118,7 @@ namespace DevionGames.UIWidgets
                     this.m_IconParent.SetActive(false);
                 }
             }
+            // See how to set the button for the callback call
             base.Show();
             button.gameObject.SetActive(false);
             for (int i = 0; i < buttons.Length; i++)
@@ -132,6 +138,7 @@ namespace DevionGames.UIWidgets
             }
         }
 
+        // Adicionar aqui os botes para tomar uma ação
         private Button AddButton(string text)
         {
             Button mButton = buttonCache.Find(x => !x.isActiveAndEnabled);

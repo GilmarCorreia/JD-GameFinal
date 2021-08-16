@@ -59,6 +59,10 @@ namespace StarterAssets
 		public float CameraAngleOverride = 0.0f;
 		[Tooltip("For locking the camera position on all axis")]
 		public bool LockCameraPosition = false;
+		
+		[Header("Items getting settings")]
+		public Transform ItemHandPos;
+		public Transform ItemHandParent;
 
 		
 		// cinemachine
@@ -75,6 +79,8 @@ namespace StarterAssets
 		bool diving = false;
 
 		private bool _canPickItem = false;
+
+		private GameObject _inRangeItem;
 
 		// timeout deltatime
 		private float _jumpTimeoutDelta;
@@ -198,6 +204,10 @@ namespace StarterAssets
 			PickObject();
 			if(hasShootingMechanics)
 				ShootingMecanics();
+            if (Input.GetKeyDown(KeyCode.J))
+            {
+				Cursor.lockState = CursorLockMode.None;
+            }
 		}
 
 		public void UpdatePickItemFlag(bool nearToPlayer)
@@ -205,13 +215,39 @@ namespace StarterAssets
 			this._canPickItem = nearToPlayer;
 		}
 
+		public void UpdateNearGameObject(GameObject item)
+		{
+			Debug.Log("Item: " + item.name);
+			this._inRangeItem = item;
+		}
+
 		private void PickObject()
         {
 			if (_input.pickObject && this._canPickItem)
 			{
 				_animator.SetBool(_animIDPickBow, true);
-				pickingObject = true;
 			}
+		}
+
+		public void GrabItem()
+		{
+			Debug.Log("Grabing ITEM...");
+			// Esta bugando a posicao...
+			// _inRangeItem.transform.position = ItemHandPos.position;
+			// _inRangeItem.transform.rotation = ItemHandPos.rotation;
+			// _inRangeItem.transform.parent = ItemHandParent;
+			
+		}
+
+		public void StoreItem()
+		{
+			Debug.Log("Grabing ITEM...");
+			// Destroy(_inRangeItem);
+		}
+
+		public void StartPickingItem()
+		{
+			pickingObject = true;
 		}
 
 		public void FinishPickingItem()
@@ -326,6 +362,11 @@ namespace StarterAssets
 
 		private void Move()
 		{
+			if (pickingObject == true)
+			{
+				return;
+			}
+			
             if (_input.dive){
 				_animator.SetBool(_animIDDive, true);
 			}
@@ -349,7 +390,7 @@ namespace StarterAssets
 
 			// note: Vector2's == operator uses approximation so is not floating point error prone, and is cheaper than magnitude
 			// if there is no input, set the target speed to 0
-			if (_input.move == Vector2.zero || pickingObject) targetSpeed = 0.0f;
+			if (_input.move == Vector2.zero) targetSpeed = 0.0f;
 
 			// a reference to the players current horizontal velocity
 			float currentHorizontalSpeed = new Vector3(_controller.velocity.x, 0.0f, _controller.velocity.z).magnitude;
@@ -391,7 +432,7 @@ namespace StarterAssets
 			Vector3 targetDirection = Quaternion.Euler(0.0f, _targetRotation, 0.0f) * Vector3.forward;
 
 			// move the player
-			_controller.Move(targetDirection.normalized * (_speed * Time.deltaTime) + new Vector3(0.0f, _verticalVelocity, 0.0f) * Time.deltaTime);
+			 _controller.Move(targetDirection.normalized * (_speed * Time.deltaTime) + new Vector3(0.0f, _verticalVelocity, 0.0f) * Time.deltaTime);
 
 			// update animator if using character
 			if (_hasAnimator)

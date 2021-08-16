@@ -7,11 +7,14 @@ EditorUserSettings:
   m_ConfigSettings:
     RecentlyUsedScenePath-0:
 <<<<<<< HEAD
+<<<<<<< HEAD
       value: 22424703114646680e0b0227036c7e1e1f1a19292d27191a22271c20acf53a31f6fe
       flags: 0
     RecentlyUsedScenePath-1:
       value: 22424703114646680e0b0227036c7e1e1f1a19292d27190328251032acf53a31f6fe
 =======
+=======
+>>>>>>> cd4d11f958a0f29682bb2a6da1c72ebc91aa2ff8
       value: 22424703114646680e0b0227036c711501572b292926237e38271427fb
       flags: 0
     RecentlyUsedScenePath-1:
@@ -49,6 +52,9 @@ EditorUserSettings:
       flags: 0
     UnityEditor.ShaderGraph.InspectorWindow:
       value: 18135939215a0a5004000b0e15254b524c1119263f2d6a722016393ce1eb3d36e5d339f9a560393d3511ea7046333e09f7181d02f50a06241708ee0b05bd4a435f95548717f73713d91006c1c309d0effad0d2f9ddffa5828f89eea2b8b2e3c7c6f8bffee8f2e782b2eda4e3f69b899d9893ee9295929195ee80808af291cb918384d28397d5888b89dcf2dff2c7f7f7c2f3f38b88
+<<<<<<< HEAD
+>>>>>>> cd4d11f958a0f29682bb2a6da1c72ebc91aa2ff8
+=======
 >>>>>>> cd4d11f958a0f29682bb2a6da1c72ebc91aa2ff8
       flags: 0
     vcSharedLogLevel:

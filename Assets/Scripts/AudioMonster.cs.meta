@@ -1,0 +1,16 @@
+fileFormatVersion: 2
+guid: 8f0848e6b0ae3d94f95276fa22c4c018
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - audioStep: {fileID: 8300000, guid: 30c21718d2a75244fb0567c8f169a32e, type: 3}
+  - audioRoar: {fileID: 8300000, guid: bbe0209f78e768949b53832008229a88, type: 3}
+  - audioBite: {fileID: 8300000, guid: 1236f44b0917fa54ea07eae551b6dacb, type: 3}
+  - audioAtq: {fileID: 8300000, guid: de3785e61ac8c074e8f9470933e7f9ae, type: 3}
+  - audioDie: {fileID: 8300000, guid: 49633201f9c137a46a22d01b399b938f, type: 3}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

@@ -204,6 +204,10 @@ namespace StarterAssets
 			PickObject();
 			if(hasShootingMechanics)
 				ShootingMecanics();
+            if (Input.GetKeyDown(KeyCode.J))
+            {
+				Cursor.lockState = CursorLockMode.None;
+            }
 		}
 
 		public void UpdatePickItemFlag(bool nearToPlayer)

@@ -6,7 +6,6 @@ public class Arrow : MonoBehaviour
 {
     Rigidbody rb;
     BoxCollider bc;
-
     bool disableRotation = false;
     public float destroyTime = 10f; 
 
@@ -37,12 +36,14 @@ public class Arrow : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
+
         if (other.gameObject.tag != "Player")
         {
             disableRotation = true;
             rb.isKinematic = true;
             rb.velocity = Vector3.zero;
         }
+   
     }
 
 }

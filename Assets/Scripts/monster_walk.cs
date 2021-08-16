@@ -12,6 +12,6 @@ public class monster_walk : StateMachineBehaviour
     public override void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         animator.GetComponent<Monster>().isInvulnerable = false;
-        animator.GetComponent<Monster>().speed = 2.5f;
+        animator.GetComponent<Monster>().speed = 0.0f;
     }
 }

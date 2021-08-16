@@ -54,7 +54,7 @@ public class Monster : MonoBehaviour
 
 
     //adiciona a variavel dano ao monstro
-    void TakeDamage(int damage)
+   public void TakeDamage(int damage)
     {
         if(isInvulnerable == true)
             return;
@@ -63,8 +63,10 @@ public class Monster : MonoBehaviour
         monsterHealth.SetHealth(currentHealth);
 
         if (currentHealth == 70 || currentHealth == 40)
+        {
             monsterAnim.SetTrigger("isRoaring");
-
+           
+        }
         if(currentHealth <= 30)
         {
             monsterAnim.SetTrigger("Dead");
@@ -72,12 +74,13 @@ public class Monster : MonoBehaviour
             speed = 0;
             HealthBarViewer.SetActive(false);
         }
+
     }
 
     // Update chamado uma vez por frame
     void Update()
     {
-        speed = 2.5f;
+     
         HealthBarViewer.SetActive(true);
              if (isAlive == false)
              {
@@ -85,12 +88,7 @@ public class Monster : MonoBehaviour
              }
 
         isInvulnerable = false;
-        //funções de debug
-        if (Input.GetKeyDown(KeyCode.K))
-            TakeDamage(10);
-
-        
-        pivotTransform = playerTarget.transform;
+   
         RunTowards();
 
         var newRotation = Quaternion.LookRotation(playerTarget.transform.position - transform.position, Vector3.forward);
@@ -114,7 +112,7 @@ public class Monster : MonoBehaviour
 
 
         dist = Vector3.Distance(target, monsterPos);
-        Debug.Log(dist);
+       // Debug.Log(dist);
 
         if (dist >= 50)
         {
@@ -128,7 +126,7 @@ public class Monster : MonoBehaviour
             BasicAttack();
         }
         else
-        { 
+        {
             monsterAnim.SetTrigger("Walk");
             transform.position = Vector3.MoveTowards(monsterPos, target, speed * Time.fixedDeltaTime);
         }
@@ -145,11 +143,16 @@ public class Monster : MonoBehaviour
 
         if (attack.gameObject.tag == "Player")
         {
-            Debug.Log(attack.gameObject.transform.position);
-            attack.gameObject.transform.Translate(pivotTransform.position.x, pivotTransform.position.y, pivotTransform.position.z);        // Move the object upward in world space 1 unit/second.
-           // attack.gameObject.transform.Translate(Vector3.back * Time.deltaTime, Space.World);
+           // Debug.Log( "A mão atacou o Jonas em" + attack.gameObject.transform.position);
+            //gera dano ao Jonas
+            playerTarget.GetComponent<JonasVida>().TakeDamage(10);
         }
-    
+        if (attack.gameObject.tag == "Arrow")
+        {
+           // Debug.Log("Arcetou uma flecha!");
+            TakeDamage(5);
+            Destroy(attack);
+        }
     }   
 
    

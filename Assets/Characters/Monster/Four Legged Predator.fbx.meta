@@ -92,13 +92,34 @@ ModelImporter:
       bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
       curves: []
       events:
+<<<<<<< HEAD
+      - time: 0
+=======
       - time: 0.017917138
+>>>>>>> 23b0bdc8ce0878e2ccb5f100425d27f24fc71439
         functionName: AudioAtq
         data: 
         objectReferenceParameter: {instanceID: 0}
         floatParameter: 0
         intParameter: 0
         messageOptions: 0
+<<<<<<< HEAD
+      - time: 0.0403071
+        functionName: Matacar
+        data: 
+        objectReferenceParameter: {instanceID: 0}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
+      - time: 0.4414634
+        functionName: Mmaos
+        data: 
+        objectReferenceParameter: {instanceID: 0}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
+=======
+>>>>>>> 23b0bdc8ce0878e2ccb5f100425d27f24fc71439
       transformMask: []
       maskType: 3
       maskSource: {instanceID: 0}
@@ -193,6 +214,16 @@ ModelImporter:
         floatParameter: 0
         intParameter: 0
         messageOptions: 0
+<<<<<<< HEAD
+      - time: 0.36685118
+        functionName: MRugir
+        data: 
+        objectReferenceParameter: {instanceID: 0}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
+=======
+>>>>>>> 23b0bdc8ce0878e2ccb5f100425d27f24fc71439
       transformMask: []
       maskType: 3
       maskSource: {instanceID: 0}
@@ -250,7 +281,14 @@ ModelImporter:
       mirror: 0
       bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
       curves: []
-      events: []
+      events:
+      - time: 0
+        functionName: Mmorrer
+        data: 
+        objectReferenceParameter: {instanceID: 0}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
       transformMask: []
       maskType: 3
       maskSource: {instanceID: 0}
@@ -279,7 +317,21 @@ ModelImporter:
       mirror: 0
       bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
       curves: []
-      events: []
+      events:
+      - time: 0.11145543
+        functionName: MAndar
+        data: 
+        objectReferenceParameter: {instanceID: 0}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
+      - time: 0.57205653
+        functionName: MAndar
+        data: 
+        objectReferenceParameter: {instanceID: 0}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
       transformMask: []
       maskType: 3
       maskSource: {instanceID: 0}

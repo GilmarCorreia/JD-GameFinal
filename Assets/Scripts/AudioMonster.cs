@@ -262,5 +262,5 @@ public class Monster : MonoBehaviour
 		GetComponent<AudioSource>().Play();
 		
 	}
-}
+}*/
 
